@@ -125,10 +125,11 @@
 #' @export
 unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
                             stats_MC = NULL, Rothman_t = 1 / 3, Pycke_q = 0.5,
-                            Riesz_s = 1, CCF09_dirs = NULL, CJ12_reg = 3,
-                            CJ12_beta = 0, Stephens = FALSE, K_Kuiper = 25,
-                            K_Watson = 25, K_Watson_1976 = 5, K_Ajne = 5e2,
-                            K_CCF09 = 25, K_max = 1e4, ...) {
+                            Riesz_s = 1, LSE_kappa = 1.0, Poisson_rho = 0.5, 
+                            CCF09_dirs = NULL, CJ12_reg = 3, CJ12_beta = 0, 
+                            Stephens = FALSE, K_Kuiper = 25, K_Watson = 25, 
+                            K_Watson_1976 = 5, K_Ajne = 5e2, K_CCF09 = 25, 
+                            K_max = 1e4, ...) {
 
   # Stop if NA's
   if (anyNA(x)) {
@@ -228,6 +229,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
 
     # Optional arguments
     args <- list("t" = Rothman_t, "q" = Pycke_q, "s" = Riesz_s,
+                 "kappa" = LSE_kappa, "rho" = Poisson_rho,
                  "dirs" = CCF09_dirs, "regime" = CJ12_reg, "beta" = CJ12_beta,
                  "Stephens" = Stephens, "K_Kuiper" = K_Kuiper,
                  "K_Watson" = K_Watson, "K_Watson_1976" = K_Watson_1976,
@@ -257,6 +259,7 @@ unif_stat_distr <- function(x, type, p, n, approx = "asymp", M = 1e4,
                                alpha = c(0.10, 0.05, 0.01),
                                return_stats = TRUE, stats_sorted = TRUE,
                                Rothman_t = Rothman_t, Pycke_q = Pycke_q,
+                               LSE_kappa = LSE_kappa, Poisson_rho = Poisson_rho,
                                CCF09_dirs = CCF09_dirs, CJ12_reg = CJ12_reg,
                                K_CCF09 = K_CCF09, ...)$stats_MC
 

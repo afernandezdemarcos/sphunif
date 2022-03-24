@@ -53,6 +53,12 @@
 \alias{d_cir_stat_PCvM}
 \alias{p_cir_stat_PRt}
 \alias{d_cir_stat_PRt}
+\alias{p_cir_stat_LSE}
+\alias{d_cir_stat_LSE}
+\alias{p_cir_stat_Poisson_squared}
+\alias{d_cir_stat_Poisson_squared}
+\alias{p_cir_stat_Poisson_cosine}
+\alias{d_cir_stat_Poisson_cosine}
 \alias{p_cir_stat_Pycke_q}
 \alias{d_cir_stat_Pycke_q}
 \alias{p_cir_stat_Rothman}
@@ -163,6 +169,18 @@ p_cir_stat_PRt(x, t = 1/3, K_max = 1000, thre = 0, ...)
 
 d_cir_stat_PRt(x, t = 1/3, K_max = 1000, thre = 0, ...)
 
+p_cir_stat_LSE(x, kappa = 1, K_max = 1000, thre = 0, ...)
+
+d_cir_stat_LSE(x, kappa = 1, K_max = 1000, thre = 0, ...)
+
+p_cir_stat_Poisson_squared(x, rho = 0.5, K_max = 1000, thre = 0, ...)
+
+d_cir_stat_Poisson_squared(x, rho = 0.5, K_max = 1000, thre = 0, ...)
+
+p_cir_stat_Poisson_cosine(x, rho = 0.5, K_max = 1000, thre = 0, ...)
+
+d_cir_stat_Poisson_cosine(x, rho = 0.5, K_max = 1000, thre = 0, ...)
+
 p_cir_stat_Pycke_q(x, q = 0.5, K_max = 1000, thre = 0, ...)
 
 d_cir_stat_Pycke_q(x, q = 0.5, K_max = 1000, thre = 0, ...)
@@ -222,6 +240,12 @@ the first terms of the truncated series of a Sobolev test. Defaults to
 
 \item{t}{\eqn{t} parameter for the Rothman and Cressie tests, a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 3}.}
+
+\item{kappa}{\eqn{\kappa} parameter for the smooth maximum (LogSumExp) test, 
+a positive real. Defaults to \code{1}.}
+
+\item{rho}{\eqn{\rho} parameter for the Poisson kernel tests, a real in
+\eqn{(-1, 1)}. Defaults to \code{0.5}.}
 
 \item{q}{\eqn{q} parameter for the Pycke "\eqn{q}-test", a real in
 \eqn{(0, 1)}. Defaults to \code{1 / 2}.}

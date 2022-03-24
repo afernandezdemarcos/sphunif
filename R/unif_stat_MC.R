@@ -191,8 +191,8 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
                          chunks = ceiling((n * M) / 1e5), cores = 1,
                          seeds = NULL, Rayleigh_m = 1, cov_a = 2 * pi,
                          Rothman_t = 1 / 3, Cressie_t = 1 / 3, Pycke_q = 0.5,
-                         Riesz_s = 1, CCF09_dirs = NULL, K_CCF09 = 25,
-                         CJ12_reg = 3, ...) {
+                         Riesz_s = 1, LSE_kappa = 1.0, Poisson_rho = 0.5, 
+                         CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3, ...) {
 
   # Check dimension
   if (p < 2) {
@@ -289,7 +289,8 @@ unif_stat_MC <- function(n, type = "all", p, M = 1e4, r_H1 = NULL,
     stats <- unif_stat(data = X, type = type, Rayleigh_m = Rayleigh_m,
                        cov_a = cov_a, Rothman_t = Rothman_t,
                        Cressie_t = Cressie_t, Pycke_q = Pycke_q,
-                       Riesz_s = Riesz_s, CCF09_dirs = CCF09_dirs,
+                       Riesz_s = Riesz_s, LSE_kappa = LSE_kappa, 
+                       Poisson_rho = Poisson_rho, CCF09_dirs = CCF09_dirs,
                        K_CCF09 = K_CCF09, CJ12_reg = CJ12_reg)
 
     # Remove X and clean memory

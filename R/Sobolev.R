@@ -151,6 +151,7 @@ d_p_k <- function(p, k, log = FALSE) {
 #' @export
 weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
                                 Rothman_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1,
+                                LSE_kappa = 1.0, Poisson_rho = 0.5,
                                 log = FALSE, verbose = TRUE, Gauss = TRUE,
                                 N = 320, tol = 1e-6, force_positive = TRUE,
                                 x_tail = NULL) {
@@ -484,6 +485,91 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       log_weights <- log_vk2
       log_dfs <- log_dk
 
+    } else if (type == "LSE") {
+      
+      # Sequence of indexes
+      k <- 1:K_max
+
+      # log(v_k^2)
+      log_vk2 <- switch((p > 2) + 1, 
+                        log(2) + LSE_kappa + 
+                          log(besselI(x = LSE_kappa, nu = k, expon.scaled = TRUE)),
+                        alpha*(log(2) - log(LSE_kappa)) + lgamma(alpha) + 
+                          log(k+alpha) + LSE_kappa + 
+                          log(besselI(x = LSE_kappa, nu = k + alpha, expon.scaled = TRUE)))
+
+      # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
+      if (p == 2) {
+
+        log_vk2 <- log_vk2 - log(2)
+
+      } else {
+
+        log_vk2 <- log_vk2 - log(1 + k / alpha)
+
+      }
+
+      # log(d_{p, k})
+      log_dk <- d_p_k(p = p, k = k, log = TRUE)
+
+      # Log weights and dfs
+      log_weights <- log_vk2
+      log_dfs <- log_dk
+      
+    } else if (type == "Poisson_squared") {
+      
+      # Sequence of indexes
+      k <- 1:K_max
+      
+      # log(v_k^2)
+      log_vk2 <- switch((p > 2) + 1, log(2) + k * log(Poisson_rho),
+                        log(1 + k / alpha) + k * log(Poisson_rho))
+      
+      # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
+      if (p == 2) {
+        
+        log_vk2 <- log_vk2 - log(2)
+        
+      } else {
+        
+        log_vk2 <- log_vk2 - log(1 + k / alpha)
+        
+      }
+      
+      # log(d_{p, k})
+      log_dk <- d_p_k(p = p, k = k, log = TRUE)
+      
+      # Log weights and dfs
+      log_weights <- log_vk2
+      log_dfs <- log_dk
+    
+    } else if (type == "Poisson_cosine") {
+      
+      # Sequence of indexes
+      k <- 1:K_max
+      
+      # log(v_k^2)
+      log_vk2 <- switch((p > 2) + 1, k * log(Poisson_rho),
+                        log(1 + k / (2 * alpha)) + k * log(Poisson_rho))
+      
+      # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
+      if (p == 2) {
+        
+        log_vk2 <- log_vk2 - log(2)
+        
+      } else {
+        
+        log_vk2 <- log_vk2 - log(1 + k / alpha)
+        
+      }
+      
+      # log(d_{p, k})
+      log_dk <- d_p_k(p = p, k = k, log = TRUE)
+      
+      # Log weights and dfs
+      log_weights <- log_vk2
+      log_dfs <- log_dk
+      
     } else {
 
       stop("Incompatible choice of p and type.")
@@ -533,11 +619,14 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
 #' @export
 d_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1e3,
                       thre = 1e-3, Rothman_t = 1 / 3, Pycke_q = 0.5,
+                      LSE_kappa = 1.0, Poisson_rho = 0.5,
                       Riesz_s = 1, ncps = 0, verbose = TRUE, N = 320,
                       x_tail = NULL, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
-                                     type = type, Rothman_t = Rothman_t,
+                                     type = type, Rothman_t = Rothman_t, 
+                                     LSE_kappa = LSE_kappa, 
+                                     Poisson_rho = Poisson_rho,
                                      Pycke_q = Pycke_q, Riesz_s = Riesz_s,
                                      verbose = verbose, Gauss = TRUE, N = N,
                                      x_tail = x_tail)
@@ -551,11 +640,14 @@ d_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1e3,
 #' @export
 p_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE", "MC")[1],
                       K_max = 1e3, thre = 1e-3, Rothman_t = 1 / 3,
-                      Pycke_q = 0.5, Riesz_s = 1, ncps = 0, verbose = TRUE,
+                      LSE_kappa = 1.0, Poisson_rho = 0.5, Pycke_q = 0.5, 
+                      Riesz_s = 1, ncps = 0, verbose = TRUE,
                       N = 320, x_tail = NULL, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
                                      type = type, Rothman_t = Rothman_t,
+                                     LSE_kappa = LSE_kappa, 
+                                     Poisson_rho = Poisson_rho,
                                      Pycke_q = Pycke_q, Riesz_s = Riesz_s,
                                      verbose = verbose, Gauss = TRUE,
                                      N = N, x_tail = x_tail)
@@ -569,11 +661,14 @@ p_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE", "MC")[1],
 #' @export
 q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
                       K_max = 1e3, thre = 1e-3, Rothman_t = 1 / 3,
-                      Pycke_q = 0.5, Riesz_s = 1, ncps = 0, verbose = TRUE,
+                      LSE_kappa = 1.0, Poisson_rho = 0.5, Pycke_q = 0.5, 
+                      Riesz_s = 1, ncps = 0, verbose = TRUE,
                       N = 320, x_tail = NULL, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
                                      type = type, Rothman_t = Rothman_t,
+                                     LSE_kappa = LSE_kappa, 
+                                     Poisson_rho = Poisson_rho,
                                      Pycke_q = Pycke_q, Riesz_s = Riesz_s,
                                      verbose = verbose, Gauss = TRUE, N = N,
                                      x_tail = x_tail)

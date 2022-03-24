@@ -32,6 +32,12 @@ arma::vec sph_stat_PRt_Psi(arma::mat Psi, double t_m, double theta_t_m,
                            arma::vec int_grid);
 arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                            arma::vec th_grid, arma::vec int_grid);
+arma::vec sph_stat_LSE_Psi(arma::mat Psi, double kappa, arma::uword n, 
+                           arma::uword p);
+arma::vec sph_stat_Poisson1_Psi(arma::mat Psi, double rho, arma::uword n, 
+                           arma::uword p);
+arma::vec sph_stat_Poisson2_Psi(arma::mat Psi, double rho, arma::uword n, 
+                                arma::uword p);
 arma::vec sph_stat_CJ12_Psi(arma::mat Psi, arma::uword n, arma::uword p);
 
 // Constants
@@ -983,6 +989,241 @@ arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
 
 }
 
+//' @rdname sph_stat
+//' @export
+// [[Rcpp::export]]
+arma::vec sph_stat_LSE(arma::cube X, double kappa = 1.0, bool Psi_in_X = false,
+                       arma::uword p = 0) {
+  
+  // Sample size
+  arma::uword n = Psi_in_X ? n_from_dist_vector(X.n_rows) : X.n_rows;
+  
+  // Dimension
+  p = Psi_in_X ? p : X.n_cols;
+  if (Psi_in_X && (p == 0)) {
+    
+    stop("p >= 2 must be specified if Psi_in_X = TRUE.");
+    
+  }
+  
+  // Kappa
+  if (kappa <= 0) {
+    
+    stop("kappa must be a value greater than 0.");
+    
+  }
+  
+  // Number of samples
+  arma::uword M = Psi_in_X ? X.n_cols : X.n_slices;
+  
+  // Compute statistic using precomputed Psi matrix?
+  if (Psi_in_X) {
+    
+    // Compute statistic
+    return sph_stat_LSE_Psi(X.slice(0), kappa, n, p);
+    
+  } else {
+    
+    // Statistic for each slice
+    arma::vec T1n = arma::zeros(M);
+    arma::uvec ind_tri = upper_tri_ind(n);
+    for (arma::uword k = 0; k < M; k++) {
+      
+      // Compute Psi matrix
+      arma::mat Psi = Psi_mat(X(arma::span::all, arma::span::all,
+                                arma::span(k)), ind_tri, true, false, false);
+      
+      // Compute statistic
+      T1n(k) = arma::as_scalar(sph_stat_LSE_Psi(Psi, kappa, n, p));
+      
+    }
+    
+    return T1n;
+    
+  }
+  
+}
+
+//' @keywords internal
+// [[Rcpp::export]]
+arma::vec sph_stat_LSE_Psi(arma::mat Psi, double kappa, arma::uword n, 
+                           arma::uword p) {
+  
+  // Statistic
+  arma::vec T1n = std::exp(kappa) +
+    (2 * arma::sum(arma::exp(kappa * arma::cos(Psi)), 0).t() / n);
+  
+  // Expectation of kernel under H_0 scaled by n
+  double alpha = 0.5 * p - 1;
+  double b_0p = 0;
+  
+  if (p == 2){
+    
+    b_0p = R::bessel_i(kappa, 0, 1);
+    
+  } else {
+    
+    b_0p = std::pow(2.0 / kappa, alpha) * std::tgamma(alpha) * 
+      alpha * R::bessel_i(kappa, alpha, 1);
+    
+  }
+  
+  double E_H0 = b_0p * n;
+  T1n = T1n - E_H0;
+
+  return T1n;
+  
+}
+
+//' @rdname sph_stat
+//' @export
+// [[Rcpp::export]]
+arma::vec sph_stat_Poisson1(arma::cube X, double rho = 0.5, bool Psi_in_X = false,
+                       arma::uword p = 0) {
+  
+  // Sample size
+  arma::uword n = Psi_in_X ? n_from_dist_vector(X.n_rows) : X.n_rows;
+  
+  // Dimension
+  p = Psi_in_X ? p : X.n_cols;
+  if (Psi_in_X && (p == 0)) {
+    
+    stop("p >= 2 must be specified if Psi_in_X = TRUE.");
+    
+  }
+  
+  // rho
+  if (std::abs(rho) >= 1) {
+    
+    stop("|rho| must be a value lower than 1.");
+    
+  }
+  
+  // Number of samples
+  arma::uword M = Psi_in_X ? X.n_cols : X.n_slices;
+  
+  // Compute statistic using precomputed Psi matrix?
+  if (Psi_in_X) {
+    
+    // Compute statistic
+    return sph_stat_Poisson1_Psi(X.slice(0), rho, n, p);
+    
+  } else {
+    
+    // Statistic for each slice
+    arma::vec T2n = arma::zeros(M);
+    arma::uvec ind_tri = upper_tri_ind(n);
+    for (arma::uword k = 0; k < M; k++) {
+      
+      // Compute Psi matrix
+      arma::mat Psi = Psi_mat(X(arma::span::all, arma::span::all,
+                                arma::span(k)), ind_tri, true, false, false);
+      
+      // Compute statistic
+      T2n(k) = arma::as_scalar(sph_stat_Poisson1_Psi(Psi, rho, n, p));
+      
+    }
+    
+    return T2n;
+    
+  }
+  
+}
+
+//' @keywords internal
+// [[Rcpp::export]]
+arma::vec sph_stat_Poisson1_Psi(arma::mat Psi, double rho, arma::uword n, 
+                           arma::uword p) {
+  
+  // Statistic
+  double rho_sq = std::pow(rho, 2.0);
+  arma::mat K_ij = (1 - rho_sq) / arma::pow(1 - 2*rho*arma::cos(Psi) + rho_sq, 0.5 * p);
+  double K_ii = (1 - rho_sq) / arma::as_scalar(std::pow(1 - 2*rho + rho_sq, 0.5 * p));
+  
+  arma::vec T2n = 2 * arma::sum(K_ij, 0).t() / n + K_ii;
+  
+  // Subtract n*E_H0, where E_H0 = 1
+  T2n -= n;
+  
+  return T2n;
+  
+}
+
+//' @rdname sph_stat
+//' @export
+// [[Rcpp::export]]
+arma::vec sph_stat_Poisson2(arma::cube X, double rho = 0.5, bool Psi_in_X = false,
+                            arma::uword p = 0) {
+  
+  // Sample size
+  arma::uword n = Psi_in_X ? n_from_dist_vector(X.n_rows) : X.n_rows;
+  
+  // Dimension
+  p = Psi_in_X ? p : X.n_cols;
+  if (Psi_in_X && (p == 0)) {
+    
+    stop("p >= 2 must be specified if Psi_in_X = TRUE.");
+    
+  }
+  
+  // rho
+  if (std::abs(rho) >= 1) {
+    
+    stop("|rho| must be a value lower than 1.");
+    
+  }
+  
+  // Number of samples
+  arma::uword M = Psi_in_X ? X.n_cols : X.n_slices;
+  
+  // Compute statistic using precomputed Psi matrix?
+  if (Psi_in_X) {
+    
+    // Compute statistic
+    return sph_stat_Poisson2_Psi(X.slice(0), rho, n, p);
+    
+  } else {
+    
+    // Statistic for each slice
+    arma::vec T3n = arma::zeros(M);
+    arma::uvec ind_tri = upper_tri_ind(n);
+    for (arma::uword k = 0; k < M; k++) {
+      
+      // Compute Psi matrix
+      arma::mat Psi = Psi_mat(X(arma::span::all, arma::span::all,
+                                arma::span(k)), ind_tri, true, false, false);
+      
+      // Compute statistic
+      T3n(k) = arma::as_scalar(sph_stat_Poisson2_Psi(Psi, rho, n, p));
+      
+    }
+    
+    return T3n;
+    
+  }
+  
+}
+
+//' @keywords internal
+// [[Rcpp::export]]
+arma::vec sph_stat_Poisson2_Psi(arma::mat Psi, double rho, arma::uword n, 
+                                arma::uword p) {
+  
+  // Statistic
+  double rho_sq = std::pow(rho, 2.0);
+  arma::mat K_ij = (1 - rho*arma::cos(Psi)) / arma::pow(1 - 2*rho*arma::cos(Psi) + rho_sq, 0.5 * p);
+  double K_ii = (1 - rho) / arma::as_scalar(std::pow(1 - 2*rho + rho_sq, 0.5 * p));
+  
+  // Statistic
+  arma::vec T3n = 2 * arma::sum(K_ij, 0).t() / n + K_ii;
+  
+  // Subtract n*E_H0, where E_H0 = 1
+  T3n -= n;
+  
+  return T3n;
+  
+}
+
 
 /*
  * Other tests
@@ -1158,4 +1399,3 @@ arma::vec sph_stat_CJ12_Psi(arma::mat Psi, arma::uword n, arma::uword p) {
   return Cn;
 
 }
-

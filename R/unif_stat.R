@@ -38,6 +38,10 @@
 #' \eqn{(0, 1)}. Defaults to \code{1 / 2}.
 #' @param Riesz_s \eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 #' \eqn{(0, 2)}. Defaults to \code{1}.
+#' @param LSE_kappa \eqn{\kappa} parameter for the smooth maximum (LogSumExp) test, 
+#' a positive real. Defaults to \code{1}.
+#' @param Poisson_rho \eqn{\rho} parameter for the Poisson kernel tests, a real in
+#' \eqn{(-1, 1)}. Defaults to \code{0.5}.
 #' @param CCF09_dirs a matrix of size \code{c(n_proj, p)} containing
 #' \code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^{p-1}}
 #' to perform the CCF09 test. If \code{NULL} (default), a sample of size
@@ -105,7 +109,8 @@
 unif_stat <- function(data, type = "all", data_sorted = FALSE,
                       Rayleigh_m = 1, cov_a = 2 * pi, Rothman_t = 1 / 3,
                       Cressie_t = 1 / 3, Pycke_q = 0.5, Riesz_s = 1,
-                      CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3) {
+                      LSE_kappa = 1.0, Poisson_rho = 0.5, CCF09_dirs = NULL, 
+                      K_CCF09 = 25, CJ12_reg = 3) {
 
   # Stop if NA's
   if (anyNA(data)) {
@@ -222,7 +227,8 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "Gine_Fn", "Gine_Gn",
-                         "Hermans_Rasson", "PAD", "PCvM", "PRt", "Pycke",
+                         "Hermans_Rasson", "LSE", "PAD", "PCvM", 
+                         "Poisson_squared", "Poisson_cosine", "PRt", "Pycke",
                          "Pycke_q", "Rothman", "Riesz")
 
     # Evaluate which statistics to apply
@@ -486,6 +492,13 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
         cir_stat_Hermans_Rasson(Theta = data, Psi_in_Theta = Psi_in_Theta)
 
     }
+    if (run_test$LSE) {
+      
+      stats$LSE <-
+        cir_stat_LSE(Theta = data, kappa = LSE_kappa, 
+                     Psi_in_Theta = Psi_in_Theta)
+      
+    }
     if (run_test$PAD) {
 
       stats$PAD <- cir_stat_PAD(Theta = data, Psi_in_Theta = Psi_in_Theta,
@@ -504,6 +517,20 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
       }
 
+    }
+    if (run_test$Poisson_squared) {
+      
+      stats$Poisson_squared <-
+        cir_stat_Poisson1(Theta = data, rho = Poisson_rho, 
+                     Psi_in_Theta = Psi_in_Theta)
+      
+    }
+    if (run_test$Poisson_cosine) {
+      
+      stats$Poisson_cosine <-
+        cir_stat_Poisson2(Theta = data, rho = Poisson_rho, 
+                          Psi_in_Theta = Psi_in_Theta)
+      
     }
     if (run_test$Rothman) {
 
@@ -549,8 +576,9 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
   } else {
 
     # Statistics using the shortest angles matrix Psi
-    stats_using_Psi <- c("Ajne", "Bakshaev", "CJ12", "Gine_Fn", "Gine_Gn",
-                         "PAD", "PCvM", "PRt", "Pycke", "Riesz")
+    stats_using_Psi <- c("Ajne", "Bakshaev", "CJ12", "Gine_Fn", "Gine_Gn", 
+                         "LSE", "PAD", "PCvM", "Poisson_squared", 
+                         "Poisson_cosine", "PRt", "Pycke", "Riesz")
 
     # Evaluate which statistics to apply
     run_test <- as.list(avail_sph_tests %in% stats_type)
@@ -687,6 +715,12 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
       }
 
     }
+    if (run_test$LSE) {
+      
+      stats$LSE <- sph_stat_LSE(X = data, kappa = LSE_kappa, 
+                                Psi_in_X = Psi_in_X, p = p)
+      
+    }
     if (run_test$PAD) {
 
       stats$PAD <- sph_stat_PAD(X = data, Psi_in_X = Psi_in_X, p = p)
@@ -704,6 +738,18 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
       }
 
+    }
+    if (run_test$Poisson_squared) {
+      
+      stats$Poisson_squared <- sph_stat_Poisson1(X = data, rho = Poisson_rho, 
+                                Psi_in_X = Psi_in_X, p = p)
+      
+    }
+    if (run_test$Poisson_cosine) {
+      
+      stats$Poisson_cosine <- sph_stat_Poisson2(X = data, rho = Poisson_rho, 
+                                                 Psi_in_X = Psi_in_X, p = p)
+      
     }
     if (run_test$PRt) {
 

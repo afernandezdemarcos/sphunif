@@ -614,6 +614,45 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cir_stat_LSE
+arma::vec cir_stat_LSE(arma::mat Theta, double kappa, bool Psi_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_LSE(SEXP ThetaSEXP, SEXP kappaSEXP, SEXP Psi_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< double >::type kappa(kappaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_LSE(Theta, kappa, Psi_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Poisson1
+arma::vec cir_stat_Poisson1(arma::mat Theta, double rho, bool Psi_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_Poisson1(SEXP ThetaSEXP, SEXP rhoSEXP, SEXP Psi_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< double >::type rho(rhoSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Poisson1(Theta, rho, Psi_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cir_stat_Poisson2
+arma::vec cir_stat_Poisson2(arma::mat Theta, double rho, bool Psi_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_Poisson2(SEXP ThetaSEXP, SEXP rhoSEXP, SEXP Psi_in_ThetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
+    Rcpp::traits::input_parameter< double >::type rho(rhoSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Poisson2(Theta, rho, Psi_in_Theta));
+    return rcpp_result_gen;
+END_RCPP
+}
 // cir_stat_CCF09
 arma::vec cir_stat_CCF09(arma::mat Theta, arma::mat dirs, arma::uword K_CCF09, bool original);
 RcppExport SEXP _sphunif_cir_stat_CCF09(SEXP ThetaSEXP, SEXP dirsSEXP, SEXP K_CCF09SEXP, SEXP originalSEXP) {
@@ -1563,6 +1602,90 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sph_stat_LSE
+arma::vec sph_stat_LSE(arma::cube X, double kappa, bool Psi_in_X, arma::uword p);
+RcppExport SEXP _sphunif_sph_stat_LSE(SEXP XSEXP, SEXP kappaSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::cube >::type X(XSEXP);
+    Rcpp::traits::input_parameter< double >::type kappa(kappaSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_X(Psi_in_XSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(sph_stat_LSE(X, kappa, Psi_in_X, p));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sph_stat_LSE_Psi
+arma::vec sph_stat_LSE_Psi(arma::mat Psi, double kappa, arma::uword n, arma::uword p);
+RcppExport SEXP _sphunif_sph_stat_LSE_Psi(SEXP PsiSEXP, SEXP kappaSEXP, SEXP nSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
+    Rcpp::traits::input_parameter< double >::type kappa(kappaSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(sph_stat_LSE_Psi(Psi, kappa, n, p));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sph_stat_Poisson1
+arma::vec sph_stat_Poisson1(arma::cube X, double rho, bool Psi_in_X, arma::uword p);
+RcppExport SEXP _sphunif_sph_stat_Poisson1(SEXP XSEXP, SEXP rhoSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::cube >::type X(XSEXP);
+    Rcpp::traits::input_parameter< double >::type rho(rhoSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_X(Psi_in_XSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Poisson1(X, rho, Psi_in_X, p));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sph_stat_Poisson1_Psi
+arma::vec sph_stat_Poisson1_Psi(arma::mat Psi, double rho, arma::uword n, arma::uword p);
+RcppExport SEXP _sphunif_sph_stat_Poisson1_Psi(SEXP PsiSEXP, SEXP rhoSEXP, SEXP nSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
+    Rcpp::traits::input_parameter< double >::type rho(rhoSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Poisson1_Psi(Psi, rho, n, p));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sph_stat_Poisson2
+arma::vec sph_stat_Poisson2(arma::cube X, double rho, bool Psi_in_X, arma::uword p);
+RcppExport SEXP _sphunif_sph_stat_Poisson2(SEXP XSEXP, SEXP rhoSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::cube >::type X(XSEXP);
+    Rcpp::traits::input_parameter< double >::type rho(rhoSEXP);
+    Rcpp::traits::input_parameter< bool >::type Psi_in_X(Psi_in_XSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Poisson2(X, rho, Psi_in_X, p));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sph_stat_Poisson2_Psi
+arma::vec sph_stat_Poisson2_Psi(arma::mat Psi, double rho, arma::uword n, arma::uword p);
+RcppExport SEXP _sphunif_sph_stat_Poisson2_Psi(SEXP PsiSEXP, SEXP rhoSEXP, SEXP nSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Psi(PsiSEXP);
+    Rcpp::traits::input_parameter< double >::type rho(rhoSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Poisson2_Psi(Psi, rho, n, p));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sph_stat_CCF09
 arma::vec sph_stat_CCF09(arma::cube X, arma::mat dirs, arma::uword K_CCF09, bool original);
 RcppExport SEXP _sphunif_sph_stat_CCF09(SEXP XSEXP, SEXP dirsSEXP, SEXP K_CCF09SEXP, SEXP originalSEXP) {
@@ -1664,6 +1787,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_cir_stat_PCvM", (DL_FUNC) &_sphunif_cir_stat_PCvM, 2},
     {"_sphunif_cir_stat_PRt", (DL_FUNC) &_sphunif_cir_stat_PRt, 3},
     {"_sphunif_cir_stat_PAD", (DL_FUNC) &_sphunif_cir_stat_PAD, 4},
+    {"_sphunif_cir_stat_LSE", (DL_FUNC) &_sphunif_cir_stat_LSE, 3},
+    {"_sphunif_cir_stat_Poisson1", (DL_FUNC) &_sphunif_cir_stat_Poisson1, 3},
+    {"_sphunif_cir_stat_Poisson2", (DL_FUNC) &_sphunif_cir_stat_Poisson2, 3},
     {"_sphunif_cir_stat_CCF09", (DL_FUNC) &_sphunif_cir_stat_CCF09, 4},
     {"_sphunif_p_Kolmogorov", (DL_FUNC) &_sphunif_p_Kolmogorov, 3},
     {"_sphunif_d_Kolmogorov", (DL_FUNC) &_sphunif_d_Kolmogorov, 3},
@@ -1739,6 +1865,12 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_sph_stat_PRt_Psi", (DL_FUNC) &_sphunif_sph_stat_PRt_Psi, 7},
     {"_sphunif_sph_stat_PAD", (DL_FUNC) &_sphunif_sph_stat_PAD, 5},
     {"_sphunif_sph_stat_PAD_Psi", (DL_FUNC) &_sphunif_sph_stat_PAD_Psi, 5},
+    {"_sphunif_sph_stat_LSE", (DL_FUNC) &_sphunif_sph_stat_LSE, 4},
+    {"_sphunif_sph_stat_LSE_Psi", (DL_FUNC) &_sphunif_sph_stat_LSE_Psi, 4},
+    {"_sphunif_sph_stat_Poisson1", (DL_FUNC) &_sphunif_sph_stat_Poisson1, 4},
+    {"_sphunif_sph_stat_Poisson1_Psi", (DL_FUNC) &_sphunif_sph_stat_Poisson1_Psi, 4},
+    {"_sphunif_sph_stat_Poisson2", (DL_FUNC) &_sphunif_sph_stat_Poisson2, 4},
+    {"_sphunif_sph_stat_Poisson2_Psi", (DL_FUNC) &_sphunif_sph_stat_Poisson2_Psi, 4},
     {"_sphunif_sph_stat_CCF09", (DL_FUNC) &_sphunif_sph_stat_CCF09, 4},
     {"_sphunif_sph_stat_Rayleigh_HD", (DL_FUNC) &_sphunif_sph_stat_Rayleigh_HD, 1},
     {"_sphunif_sph_stat_CJ12", (DL_FUNC) &_sphunif_sph_stat_CJ12, 4},

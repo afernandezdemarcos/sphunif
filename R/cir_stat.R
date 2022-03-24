@@ -47,6 +47,10 @@
 #' \eqn{(0, 1)}. Defaults to \code{1 / 2}.
 #' @param s \eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 #' \eqn{(0, 2)}. Defaults to \code{1}.
+#' @param kappa \eqn{\kappa} parameter for the smooth maximum (LogSumExp) test, 
+#' a positive real. Defaults to \code{1}.
+#' @param rho \eqn{\rho} parameter for the Poisson kernel tests, a real in
+#' \eqn{(-1, 1)}. Defaults to \code{0.5}.
 #' @param abs_val return the absolute value of the Darling's log gaps
 #' statistic? If \code{TRUE} (default), rejection happens for \emph{large}
 #' values of the statistic, which is consistent with the rest of tests.
@@ -209,7 +213,7 @@
 #' # Riesz
 #' cir_stat_Riesz(Theta, s = 1)
 #' cir_stat_Riesz(Psi, Psi_in_Theta = TRUE, s = 1)
-#
+#'
 #' # Projected Cramér-von Mises
 #' cir_stat_PCvM(Theta)
 #' cir_stat_PCvM(Psi, Psi_in_Theta = TRUE)
@@ -222,6 +226,18 @@
 #' # Projected Anderson-Darling
 #' cir_stat_PAD(Theta)
 #' cir_stat_PAD(Psi, Psi_in_Theta = TRUE)
+#' 
+#' # Smooth maximum (LogSumExp)
+#' cir_stat_LSE(Theta)
+#' cir_stat_LSE(Psi, Psi_in_Theta = TRUE)
+#' 
+#' # Poisson Kernel (rho_squared)
+#' cir_stat_Poisson1(Theta)
+#' cir_stat_Poisson1(Psi, Psi_in_Theta = TRUE)
+#'
+#' # Poisson Kernel (rho_cosine)
+#' cir_stat_Poisson2(Theta)
+#' cir_stat_Poisson2(Psi, Psi_in_Theta = TRUE)
 #'
 #' ## Other tests
 #'

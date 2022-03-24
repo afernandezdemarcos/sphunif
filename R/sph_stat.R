@@ -108,6 +108,18 @@
 #' sph_stat_PAD(X)
 #' sph_stat_PAD(Psi, Psi_in_X = TRUE, p = p)
 #'
+#' # Smooth maximum (LogSumExp)
+#' sph_stat_LSE(X)
+#' sph_stat_LSE(Psi, Psi_in_X = TRUE, p = p)
+#' 
+#' # Poisson Kernel (rho_squared)
+#' sph_stat_Poisson1(X)
+#' sph_stat_Poisson1(Psi, Psi_in_X = TRUE, p = p)
+#'
+#' # Poisson Kernel (rho_cosine)
+#' sph_stat_Poisson2(X)
+#' sph_stat_Poisson2(Psi, Psi_in_X = TRUE, p = p)
+#'
 #' ## Other tests
 #'
 #' # CCF09

@@ -6,7 +6,8 @@
 \usage{
 unif_stat(data, type = "all", data_sorted = FALSE, Rayleigh_m = 1,
   cov_a = 2 * pi, Rothman_t = 1/3, Cressie_t = 1/3, Pycke_q = 0.5,
-  Riesz_s = 1, CCF09_dirs = NULL, K_CCF09 = 25, CJ12_reg = 3)
+  Riesz_s = 1, LSE_kappa = 1, Poisson_rho = 0.5, CCF09_dirs = NULL,
+  K_CCF09 = 25, CJ12_reg = 3)
 }
 \arguments{
 \item{data}{sample to compute the test statistic. An \bold{array} of size
@@ -49,6 +50,12 @@ of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
 
 \item{Riesz_s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}
+
+\item{LSE_kappa}{\eqn{\kappa} parameter for the smooth maximum (LogSumExp) test, 
+a positive real. Defaults to \code{1}.}
+
+\item{Poisson_rho}{\eqn{\rho} parameter for the Poisson kernel tests, a real in
+\eqn{(-1, 1)}. Defaults to \code{0.5}.}
 
 \item{CCF09_dirs}{a matrix of size \code{c(n_proj, p)} containing
 \code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^{p-1}}
