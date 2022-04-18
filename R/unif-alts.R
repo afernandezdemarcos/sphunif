@@ -695,12 +695,13 @@ uk_to_bk <- function(uk, p) {
 #'
 #' @description Simple simulation of prespecified non-uniform spherical
 #' distributions: von Mises--Fisher (vMF), Mixture of vMF (MvMF),
-#' Angular Central Gaussian (ACG), Small Circle (SC), Watson (W), or
-#' Cauchy-like (C).
+#' Angular Central Gaussian (ACG), Small Circle (SC), Watson (W), Cauchy-like 
+#' (C), or Mixture of Cauchy-like (MC).
 #'
 #' @inheritParams r_unif
 #' @param alt alternative, must be \code{"vMF"}, \code{"MvMF"},
-#' \code{"ACG"}, \code{"SC"}, \code{"W"}, or \code{"C"}. See details below.
+#' \code{"ACG"}, \code{"SC"}, \code{"W"}, \code{"C"}, or \code{"MC"}. 
+#' See details below.
 #' @param kappa non-negative parameter measuring the strength of the deviation
 #' with respect to uniformity (obtained with \eqn{\kappa = 0}).
 #' @param nu projection along \eqn{{\bf e}_p}{e_p} controlling the modal
@@ -710,7 +711,7 @@ uk_to_bk <- function(uk, p) {
 #' for \code{"SC"}, \code{"W"}, and \code{"C"}. Computed by internally if
 #' \code{NULL} (default).
 #' @inheritParams F_inv_from_f
-#' @param axial_MvMF use a mixture of vMF that is axial (i.e., symmetrically
+#' @param axial_MvMF use a mixture of vMF or C that is axial (i.e., symmetrically
 #' distributed about the origin)? Defaults to \code{TRUE}.
 #' @details
 #' The parameter \code{kappa} is used as \eqn{\kappa} in the following
@@ -738,13 +739,18 @@ uk_to_bk <- function(uk, p) {
 #'   \eqn{{\bf e}_p = (0, 0, \ldots, 1)}{e_p = (0, 0, \ldots, 1)} and
 #'   concentration \eqn{\kappa = \rho / (1 - \rho^2)}. The circular Wrapped
 #'   Cauchy distribution is a particular case of this Cauchy-like distribution.
+#'   \item \code{"MC"}: equally-weighted mixture of \eqn{p} Cauchy-like 
+#'   distributions with common concentration \eqn{\kappa = \rho / (1 - \rho^2)}
+#'   and directional mode \eqn{{\bf e}_p = (0, 0, \ldots, 1)}{e_p = (0, 0, 
+#'   \ldots, 1)}. If \code{axial_MvMF = FALSE}, then only means
+#'   with positive signs are considered.
 #' }
 #' @return An \bold{array} of size \code{c(n, p, M)} with \code{M} random
 #' samples of size \code{n} of non-uniformly-generated directions on
 #' \eqn{S^{p-1}}.
 #' @details
-#' Much faster sampling for \code{"SC"}, \code{"W"}, and \code{"C"} is achieved
-#' providing \code{F_inv}, see examples.
+#' Much faster sampling for \code{"SC"}, \code{"W"}, \code{"C"}, and \code{"MC"}
+#' is achieved providing \code{F_inv}, see examples.
 #' @examples
 #' ## Simulation with p = 2
 #'
@@ -763,6 +769,7 @@ uk_to_bk <- function(uk, p) {
 #' x4 <- r_alt(n = n, p = p, alt = "SC", F_inv = F_inv_SC_2)[, , 1]
 #' x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_2)[, , 1]
 #' x6 <- r_alt(n = n, p = p, alt = "C", F_inv = F_inv_C_2)[, , 1]
+#' x7 <- r_alt(n = n, p = p, alt = "MC", F_inv = F_inv_C_2)[, , 1]
 #' r <- runif(n, 0.95, 1.05) # Radius perturbation to improve visualization
 #' plot(r * x1, pch = 16, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1), col = 1)
 #' points(r * x2, pch = 16, col = 2)
@@ -770,6 +777,7 @@ uk_to_bk <- function(uk, p) {
 #' points(r * x4, pch = 16, col = 4)
 #' points(r * x5, pch = 16, col = 5)
 #' points(r * x6, pch = 16, col = 6)
+#' points(r * x7, pch = 16, col = 7)
 #'
 #' ## Simulation with p = 3
 #'
@@ -788,6 +796,7 @@ uk_to_bk <- function(uk, p) {
 #' x4 <- r_alt(n = n, p = p, alt = "SC", F_inv = F_inv_SC_3)[, , 1]
 #' x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_3)[, , 1]
 #' x6 <- r_alt(n = n, p = p, alt = "C", F_inv = F_inv_C_3)[, , 1]
+#' x7 <- r_alt(n = n, p = p, alt = "MC", F_inv = F_inv_C_3)[, , 1]
 #' s3d <- scatterplot3d::scatterplot3d(x1, pch = 16, xlim = c(-1.1, 1.1),
 #'                                     ylim = c(-1.1, 1.1), zlim = c(-1.1, 1.1))
 #' s3d$points3d(x2, pch = 16, col = 2)
@@ -795,6 +804,7 @@ uk_to_bk <- function(uk, p) {
 #' s3d$points3d(x4, pch = 16, col = 4)
 #' s3d$points3d(x5, pch = 16, col = 5)
 #' s3d$points3d(x6, pch = 16, col = 6)
+#' s3d$points3d(x7, pch = 16, col = 7)
 #' @export
 r_alt <- function(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, F_inv = NULL,
                   K = 1e3, axial_MvMF = TRUE) {
@@ -902,6 +912,49 @@ r_alt <- function(n, p, M = 1, alt = "vMF", kappa = 1, nu = 0.5, F_inv = NULL,
     long_samp <- rotasym::r_tang_norm(n = n * M, theta = mu,
                                       r_U = r_U, r_V = r_V)
 
+  } else if (alt == "MC") {
+    
+    # Mixture components
+    j <- sample(x = 1:p, size = n * M, replace = TRUE)
+    nM_j <- tabulate(bin = j, nbins = p)
+    mu_j <- diag(1, nrow = p, ncol = p)
+    
+    # Compute the inverse of the distribution function F?
+    if (is.null(F_inv)) {
+      
+      rho <- ifelse(kappa == 0, 0, ((2 * kappa + 1) - sqrt(4 * 
+                                                             kappa + 1))/(2 * kappa))
+      f <- function(z) (1 - rho^2)/(1 + rho^2 - 2 * rho * 
+                                      z)^(p/2)
+      F_inv <- F_inv_from_f(f = f, p = p, K = K)
+      
+    }
+    
+    # Sample the small circle distribution
+    r_U <- function(n) r_unif_sph(n = n, p = p - 1, M = 1)[, , 1]
+    r_V <- function(n) F_inv(runif(n = n))
+    
+    # Sample components
+    long_samp <- matrix(nrow = n * M, ncol = p)
+    for (k in which(nM_j > 0)) {
+      
+      long_samp[j == k, ] <- rotasym::r_tang_norm(n = nM_j[k], theta = mu_j[k, ],
+                                                  r_U = r_U, r_V = r_V)
+      
+    }
+    
+    # Add plus and minus means
+    if (axial_MvMF) {
+      
+      long_samp <- sample(x = c(-1, 1), size = n * M, replace = TRUE) *
+        long_samp
+      
+    }
+    
+    # Shuffle data
+    long_samp <- long_samp[sample(x = n * M), , drop = FALSE]
+    
+  
   } else {
 
     stop(paste("Wrong alt; must be \"vMF\", \"MvMF\", \"Bing\"",

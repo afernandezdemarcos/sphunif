@@ -16,7 +16,8 @@ contains \eqn{S^{p-1}}.}
 \item{M}{number of samples of size \code{n}. Defaults to \code{1}.}
 
 \item{alt}{alternative, must be \code{"vMF"}, \code{"MvMF"},
-\code{"ACG"}, \code{"SC"}, \code{"W"}, or \code{"C"}. See details below.}
+\code{"ACG"}, \code{"SC"}, \code{"W"}, \code{"C"}, or \code{"MC"}. 
+See details below.}
 
 \item{kappa}{non-negative parameter measuring the strength of the deviation
 with respect to uniformity (obtained with \eqn{\kappa = 0}).}
@@ -32,7 +33,7 @@ for \code{"SC"}, \code{"W"}, and \code{"C"}. Computed by internally if
 \item{K}{number of equispaced points on \eqn{[-1, 1]} used for evaluating
 \eqn{F^{-1}} and then interpolating. Defaults to \code{1e3}.}
 
-\item{axial_MvMF}{use a mixture of vMF that is axial (i.e., symmetrically
+\item{axial_MvMF}{use a mixture of vMF or C that is axial (i.e., symmetrically
 distributed about the origin)? Defaults to \code{TRUE}.}
 }
 \value{
@@ -43,8 +44,8 @@ samples of size \code{n} of non-uniformly-generated directions on
 \description{
 Simple simulation of prespecified non-uniform spherical
 distributions: von Mises--Fisher (vMF), Mixture of vMF (MvMF),
-Angular Central Gaussian (ACG), Small Circle (SC), Watson (W), or
-Cauchy-like (C).
+Angular Central Gaussian (ACG), Small Circle (SC), Watson (W), Cauchy-like 
+(C), or Mixture of Cauchy-like (MC).
 }
 \details{
 The parameter \code{kappa} is used as \eqn{\kappa} in the following
@@ -72,10 +73,15 @@ distributions:
   \eqn{{\bf e}_p = (0, 0, \ldots, 1)}{e_p = (0, 0, \ldots, 1)} and
   concentration \eqn{\kappa = \rho / (1 - \rho^2)}. The circular Wrapped
   Cauchy distribution is a particular case of this Cauchy-like distribution.
+  \item \code{"MC"}: equally-weighted mixture of \eqn{p} Cauchy-like 
+  distributions with common concentration \eqn{\kappa = \rho / (1 - \rho^2)}
+  and directional mode \eqn{{\bf e}_p = (0, 0, \ldots, 1)}{e_p = (0, 0, 
+  \ldots, 1)}. If \code{axial_MvMF = FALSE}, then only means
+  with positive signs are considered.
 }
 
-Much faster sampling for \code{"SC"}, \code{"W"}, and \code{"C"} is achieved
-providing \code{F_inv}, see examples.
+Much faster sampling for \code{"SC"}, \code{"W"}, \code{"C"}, and \code{"MC"}
+is achieved providing \code{F_inv}, see examples.
 }
 \examples{
 ## Simulation with p = 2
@@ -95,6 +101,7 @@ x3 <- r_alt(n = n, p = p, alt = "ACG", kappa = kappa)[, , 1]
 x4 <- r_alt(n = n, p = p, alt = "SC", F_inv = F_inv_SC_2)[, , 1]
 x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_2)[, , 1]
 x6 <- r_alt(n = n, p = p, alt = "C", F_inv = F_inv_C_2)[, , 1]
+x7 <- r_alt(n = n, p = p, alt = "MC", F_inv = F_inv_C_2)[, , 1]
 r <- runif(n, 0.95, 1.05) # Radius perturbation to improve visualization
 plot(r * x1, pch = 16, xlim = c(-1.1, 1.1), ylim = c(-1.1, 1.1), col = 1)
 points(r * x2, pch = 16, col = 2)
@@ -102,6 +109,7 @@ points(r * x3, pch = 16, col = 3)
 points(r * x4, pch = 16, col = 4)
 points(r * x5, pch = 16, col = 5)
 points(r * x6, pch = 16, col = 6)
+points(r * x7, pch = 16, col = 7)
 
 ## Simulation with p = 3
 
@@ -120,6 +128,7 @@ x3 <- r_alt(n = n, p = p, alt = "ACG", kappa = kappa)[, , 1]
 x4 <- r_alt(n = n, p = p, alt = "SC", F_inv = F_inv_SC_3)[, , 1]
 x5 <- r_alt(n = n, p = p, alt = "W", F_inv = F_inv_W_3)[, , 1]
 x6 <- r_alt(n = n, p = p, alt = "C", F_inv = F_inv_C_3)[, , 1]
+x7 <- r_alt(n = n, p = p, alt = "MC", F_inv = F_inv_C_3)[, , 1]
 s3d <- scatterplot3d::scatterplot3d(x1, pch = 16, xlim = c(-1.1, 1.1),
                                     ylim = c(-1.1, 1.1), zlim = c(-1.1, 1.1))
 s3d$points3d(x2, pch = 16, col = 2)
@@ -127,4 +136,5 @@ s3d$points3d(x3, pch = 16, col = 3)
 s3d$points3d(x4, pch = 16, col = 4)
 s3d$points3d(x5, pch = 16, col = 5)
 s3d$points3d(x6, pch = 16, col = 6)
+s3d$points3d(x7, pch = 16, col = 7)
 }
