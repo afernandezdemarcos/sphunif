@@ -1050,8 +1050,7 @@ arma::vec sph_stat_LSE_Psi(arma::mat Psi, double kappa, arma::uword n,
                            arma::uword p) {
   
   // Statistic
-  arma::vec T1n = std::exp(kappa) +
-    (2 * arma::sum(arma::exp(kappa * arma::cos(Psi)), 0).t() / n);
+  arma::vec T1n = arma::sum(arma::exp(kappa * arma::cos(Psi)), 0).t() / n;
   
   // Expectation of kernel under H_0 scaled by n
   double alpha = 0.5 * p - 1;
@@ -1068,7 +1067,7 @@ arma::vec sph_stat_LSE_Psi(arma::mat Psi, double kappa, arma::uword n,
     
   }
   
-  double E_H0 = b_0p * n;
+  double E_H0 = b_0p * (n - 1) / 2;
   T1n = T1n - E_H0;
 
   return T1n;
@@ -1136,14 +1135,14 @@ arma::vec sph_stat_Poisson1_Psi(arma::mat Psi, double rho, arma::uword n,
                            arma::uword p) {
   
   // Statistic
-  double rho_sq = std::pow(rho, 2.0);
+  double rho_sq = rho * rho;
   arma::mat K_ij = (1 - rho_sq) / arma::pow(1 - 2*rho*arma::cos(Psi) + rho_sq, 0.5 * p);
-  double K_ii = (1 - rho_sq) / arma::as_scalar(std::pow(1 - 2*rho + rho_sq, 0.5 * p));
+  //double K_ii = (1 - rho_sq) / arma::as_scalar(std::pow(1 - 2*rho + rho_sq, 0.5 * p));
   
-  arma::vec T2n = 2 * arma::sum(K_ij, 0).t() / n + K_ii;
+  arma::vec T2n = arma::sum(K_ij, 0).t() / n;
   
   // Subtract n*E_H0, where E_H0 = 1
-  T2n -= n;
+  T2n -= (n-1) / 2;
   
   return T2n;
   
