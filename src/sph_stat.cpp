@@ -1137,12 +1137,10 @@ arma::vec sph_stat_Poisson1_Psi(arma::mat Psi, double rho, arma::uword n,
   // Statistic
   double rho_sq = rho * rho;
   arma::mat K_ij = (1 - rho_sq) / arma::pow(1 - 2*rho*arma::cos(Psi) + rho_sq, 0.5 * p);
-  //double K_ii = (1 - rho_sq) / arma::as_scalar(std::pow(1 - 2*rho + rho_sq, 0.5 * p));
-  
   arma::vec T2n = arma::sum(K_ij, 0).t() / n;
   
-  // Subtract n*E_H0, where E_H0 = 1
-  T2n -= (n-1) / 2;
+  // Subtract (n-1)*E_H0/2, where E_H0 = 1
+  T2n = T2n - (n-1) / 2.0;
   
   return T2n;
   
