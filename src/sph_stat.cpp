@@ -1067,7 +1067,7 @@ arma::vec sph_stat_LSE_Psi(arma::mat Psi, double kappa, arma::uword n,
     
   }
   
-  double E_H0 = b_0p * (n - 1) / 2;
+  double E_H0 = b_0p * (n - 1) / 2.0;
   T1n = T1n - E_H0;
 
   return T1n;
