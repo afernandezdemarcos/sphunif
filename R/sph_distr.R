@@ -243,7 +243,7 @@ d_sph_stat_PRt <- function(x, p, t = 1 / 3, K_max = 1e3, thre = 0, ...) {
 #' @export
 p_sph_stat_LSE <- function(x, p, kappa = 1.0, K_max = 1e3, thre = 0, ...) {
   
-  cbind(p_Sobolev(x = x, p = p, type = "LSE", LSE_kappa = kappa,
+  cbind(p_Sobolev_centered(x = x, p = p, type = "LSE", LSE_kappa = kappa,
                   K_max = K_max, thre = thre, ...))
   
 }
@@ -252,8 +252,17 @@ p_sph_stat_LSE <- function(x, p, kappa = 1.0, K_max = 1e3, thre = 0, ...) {
 #' @export
 d_sph_stat_LSE <- function(x, p, kappa = 1.0, K_max = 1e3, thre = 0, ...) {
   
-  cbind(d_Sobolev(x = x, p = p, type = "LSE", LSE_kappa = kappa,
+  cbind(d_Sobolev_centered(x = x, p = p, type = "LSE", LSE_kappa = kappa,
                   K_max = K_max, thre = thre, ...))
+  
+}
+
+#' @rdname sph_stat_distr
+#' @export
+q_sph_stat_LSE <- function(u, p, kappa = 1.0, K_max = 1e3, thre = 0, ...) {
+  
+  cbind(q_Sobolev_centered(u = u, p = p, type = "LSE", LSE_kappa = kappa,
+                           K_max = K_max, thre = thre, ...))
   
 }
 
@@ -272,6 +281,15 @@ d_sph_stat_Poisson_squared <- function(x, p, rho = 0.5, K_max = 1e3, thre = 0, .
   
   cbind(d_Sobolev(x = x, p = p, type = "Poisson_squared", Poisson_rho = rho,
                   K_max = K_max, thre = thre, ...))
+  
+}
+
+#' @rdname sph_stat_distr
+#' @export
+q_sph_stat_Poisson_squared <- function(u, p, kappa = 1.0, K_max = 1e3, thre = 0, ...) {
+  
+  cbind(q_Sobolev_centered(u = u, p = p, type = "Poisson_squared", Poisson_rho = rho,
+                           K_max = K_max, thre = thre, ...))
   
 }
 

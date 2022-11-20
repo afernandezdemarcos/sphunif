@@ -1067,8 +1067,8 @@ arma::vec sph_stat_LSE_Psi(arma::mat Psi, double kappa, arma::uword n,
     
   }
   
-  double E_H0 = b_0p * (n - 1) / 2.0;
-  T1n = T1n - E_H0;
+  double E_H0 = b_0p * (n - 1);
+  T1n = 2.0 * T1n - E_H0;
 
   return T1n;
   
@@ -1139,8 +1139,8 @@ arma::vec sph_stat_Poisson1_Psi(arma::mat Psi, double rho, arma::uword n,
   arma::mat K_ij = (1 - rho_sq) / arma::pow(1 - 2*rho*arma::cos(Psi) + rho_sq, 0.5 * p);
   arma::vec T2n = arma::sum(K_ij, 0).t() / n;
   
-  // Subtract (n-1)*E_H0/2, where E_H0 = 1
-  T2n = T2n - (n-1) / 2.0;
+  // Subtract (n-1)*E_H0, where E_H0 = 1
+  T2n = 2.0 * T2n - (n-1);
   
   return T2n;
   
