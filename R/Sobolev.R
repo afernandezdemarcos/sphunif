@@ -492,10 +492,10 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
 
       # log(v_k^2)
       log_vk2 <- switch((p > 2) + 1, 
-                        log(2) + LSE_kappa + 
+                        log(2) + 
                           log(besselI(x = LSE_kappa, nu = k, expon.scaled = TRUE)),
                         alpha*(log(2) - log(LSE_kappa)) + lgamma(alpha) + 
-                          log(k+alpha) + LSE_kappa + 
+                          log(k+alpha) + 
                           log(besselI(x = LSE_kappa, nu = k + alpha, expon.scaled = TRUE)))
 
       # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
@@ -621,7 +621,7 @@ d_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1e3,
                       thre = 1e-3, Rothman_t = 1 / 3, Pycke_q = 0.5,
                       LSE_kappa = 1.0, Poisson_rho = 0.5,
                       Riesz_s = 1, ncps = 0, verbose = TRUE, N = 320,
-                      x_tail = NULL, ...) {
+                      x_tail = NULL, centered = FALSE, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
                                      type = type, Rothman_t = Rothman_t, 
@@ -630,29 +630,12 @@ d_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1e3,
                                      Pycke_q = Pycke_q, Riesz_s = Riesz_s,
                                      verbose = verbose, Gauss = TRUE, N = N,
                                      x_tail = x_tail)
+  
+  if (centered) x <- x + sum(weights_dfs$weights * weights_dfs$dfs)
+  
   d_wschisq(x = x, weights = weights_dfs$weights, dfs = weights_dfs$dfs,
             ncps = ncps, method = method, ...)
 
-}
-
-#' @rdname Sobolev
-#' @export
-d_Sobolev_centered <- function(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1e3,
-                               thre = 1e-3, Rothman_t = 1 / 3, Pycke_q = 0.5,
-                               LSE_kappa = 1.0, Poisson_rho = 0.5,
-                               Riesz_s = 1, ncps = 0, verbose = TRUE, N = 320,
-                               x_tail = NULL, ...) {
-  
-  weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
-                                     type = type, Rothman_t = Rothman_t, 
-                                     LSE_kappa = LSE_kappa, 
-                                     Poisson_rho = Poisson_rho,
-                                     Pycke_q = Pycke_q, Riesz_s = Riesz_s,
-                                     verbose = verbose, Gauss = TRUE, N = N,
-                                     x_tail = x_tail)
-  d_wschisq(x = x + sum(weights_dfs$weights * weights_dfs$dfs), weights = weights_dfs$weights, dfs = weights_dfs$dfs,
-            ncps = ncps, method = method, ...)
-  
 }
 
 
@@ -662,7 +645,7 @@ p_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE", "MC")[1],
                       K_max = 1e3, thre = 1e-3, Rothman_t = 1 / 3,
                       LSE_kappa = 1.0, Poisson_rho = 0.5, Pycke_q = 0.5, 
                       Riesz_s = 1, ncps = 0, verbose = TRUE,
-                      N = 320, x_tail = NULL, ...) {
+                      N = 320, x_tail = NULL, centered = FALSE, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
                                      type = type, Rothman_t = Rothman_t,
@@ -671,30 +654,14 @@ p_Sobolev <- function(x, p, type, method = c("I", "SW", "HBE", "MC")[1],
                                      Pycke_q = Pycke_q, Riesz_s = Riesz_s,
                                      verbose = verbose, Gauss = TRUE,
                                      N = N, x_tail = x_tail)
+  
+  if (centered) x <- x + sum(weights_dfs$weights * weights_dfs$dfs)
+  
   p_wschisq(x = x, weights = weights_dfs$weights, dfs = weights_dfs$dfs,
             ncps = ncps, method = method, ...)
 
 }
 
-#' @rdname Sobolev
-#' @export
-p_Sobolev_centered <- function(x, p, type, method = c("I", "SW", "HBE", "MC")[1],
-                               K_max = 1e3, thre = 1e-3, Rothman_t = 1 / 3,
-                               LSE_kappa = 1.0, Poisson_rho = 0.5, Pycke_q = 0.5, 
-                               Riesz_s = 1, ncps = 0, verbose = TRUE,
-                               N = 320, x_tail = NULL, ...) {
-  
-  weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
-                                     type = type, Rothman_t = Rothman_t,
-                                     LSE_kappa = LSE_kappa, 
-                                     Poisson_rho = Poisson_rho,
-                                     Pycke_q = Pycke_q, Riesz_s = Riesz_s,
-                                     verbose = verbose, Gauss = TRUE,
-                                     N = N, x_tail = x_tail)
-  p_wschisq(x = x + sum(weights_dfs$weights * weights_dfs$dfs), weights = weights_dfs$weights, dfs = weights_dfs$dfs,
-            ncps = ncps, method = method, ...)
-  
-}
 
 #' @rdname Sobolev
 #' @export
@@ -702,7 +669,7 @@ q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
                       K_max = 1e3, thre = 1e-3, Rothman_t = 1 / 3,
                       LSE_kappa = 1.0, Poisson_rho = 0.5, Pycke_q = 0.5, 
                       Riesz_s = 1, ncps = 0, verbose = TRUE,
-                      N = 320, x_tail = NULL, ...) {
+                      N = 320, x_tail = NULL, centered = FALSE, ...) {
 
   weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
                                      type = type, Rothman_t = Rothman_t,
@@ -711,27 +678,12 @@ q_Sobolev <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
                                      Pycke_q = Pycke_q, Riesz_s = Riesz_s,
                                      verbose = verbose, Gauss = TRUE, N = N,
                                      x_tail = x_tail)
-  q_wschisq(u = u, weights = weights_dfs$weights, dfs = weights_dfs$dfs,
+  
+  q <- q_wschisq(u = u, weights = weights_dfs$weights, dfs = weights_dfs$dfs,
             ncps = ncps, method = method, ...)
-
-}
-
-#' @rdname Sobolev
-#' @export
-q_Sobolev_centered <- function(u, p, type, method = c("I", "SW", "HBE", "MC")[1],
-                      K_max = 1e3, thre = 1e-3, Rothman_t = 1 / 3,
-                      LSE_kappa = 1.0, Poisson_rho = 0.5, Pycke_q = 0.5, 
-                      Riesz_s = 1, ncps = 0, verbose = TRUE,
-                      N = 320, x_tail = NULL, ...) {
   
-  weights_dfs <- weights_dfs_Sobolev(p = p, K_max = K_max, thre = thre,
-                                     type = type, Rothman_t = Rothman_t,
-                                     LSE_kappa = LSE_kappa, 
-                                     Poisson_rho = Poisson_rho,
-                                     Pycke_q = Pycke_q, Riesz_s = Riesz_s,
-                                     verbose = verbose, Gauss = TRUE, N = N,
-                                     x_tail = x_tail)
-  q_wschisq(u = u, weights = weights_dfs$weights, dfs = weights_dfs$dfs,
-            ncps = ncps, method = method, ...) - sum(weights_dfs$weights * weights_dfs$dfs)
+  if (centered) q <- q - sum(weights_dfs$weights * weights_dfs$dfs)
   
+  q
+
 }

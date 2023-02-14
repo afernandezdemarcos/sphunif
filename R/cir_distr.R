@@ -346,24 +346,6 @@ d_cir_stat_Poisson_squared <- function(x, rho = 0.5, K_max = 1e3, thre = 0, ...)
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_Poisson_cosine <- function(x, rho = 0.5, K_max = 1e3, thre = 0, ...) {
-  
-  p_sph_stat_Poisson_cosine(x = x, p = 2, rho = rho, K_max = K_max, thre = thre, ...)
-  
-}
-
-
-#' @rdname cir_stat_distr
-#' @export
-d_cir_stat_Poisson_cosine <- function(x, rho = 0.5, K_max = 1e3, thre = 0, ...) {
-  
-  d_sph_stat_Poisson_cosine(x = x, p = 2, rho = rho, K_max = K_max, thre = thre, ...)
-  
-}
-
-
-#' @rdname cir_stat_distr
-#' @export
 p_cir_stat_Pycke_q <- function(x, q = 0.5, K_max = 1e3, thre = 0, ...) {
 
   cbind(p_Sobolev(x = x, p = 2, type = "Pycke_q", Pycke_q = q,

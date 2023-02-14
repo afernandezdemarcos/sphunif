@@ -556,7 +556,8 @@ q_wschisq <- function(u, weights, dfs, ncps = 0,
       if (method == "I") {
 
         # Work in safe log-scale for calling afterwards nlm()
-        q <- pmin(pmax(log(q), -6), 6)
+        # q <- pmin(pmax(log(q), -6), 6)
+        q <- log(q)
 
         # Numerical inversion of the Imhof's cdf approximation
         F_v <- function(x, v) {
