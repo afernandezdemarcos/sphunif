@@ -1058,11 +1058,11 @@ arma::vec sph_stat_LSE_Psi(arma::mat Psi, double kappa, arma::uword n,
   
   if (p == 2){
     
-    b_0p = R::bessel_i(kappa, 0, 1);
+    b_0p = std::exp(-kappa) * R::bessel_i(kappa, 0, 1);
     
   } else {
     
-    b_0p = std::pow(2.0 / kappa, alpha) * std::tgamma(alpha) * 
+    b_0p = std::pow(2.0 / kappa, alpha) * std::tgamma(alpha) * std::exp(-kappa) * 
       alpha * R::bessel_i(kappa, alpha, 1);
     
   }
