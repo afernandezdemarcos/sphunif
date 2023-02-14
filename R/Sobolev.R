@@ -543,33 +543,6 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       log_weights <- log_vk2
       log_dfs <- log_dk
     
-    } else if (type == "Poisson_cosine") {
-      
-      # Sequence of indexes
-      k <- 1:K_max
-      
-      # log(v_k^2)
-      log_vk2 <- switch((p > 2) + 1, k * log(Poisson_rho),
-                        log(1 + k / (2 * alpha)) + k * log(Poisson_rho))
-      
-      # Divide by 2 if p = 2 and (1 + k / alpha) if p > 2
-      if (p == 2) {
-        
-        log_vk2 <- log_vk2 - log(2)
-        
-      } else {
-        
-        log_vk2 <- log_vk2 - log(1 + k / alpha)
-        
-      }
-      
-      # log(d_{p, k})
-      log_dk <- d_p_k(p = p, k = k, log = TRUE)
-      
-      # Log weights and dfs
-      log_weights <- log_vk2
-      log_dfs <- log_dk
-      
     } else {
 
       stop("Incompatible choice of p and type.")
