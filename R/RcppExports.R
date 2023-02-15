@@ -589,12 +589,6 @@ cir_stat_Poisson1 <- function(Theta, rho = 0.5, Psi_in_Theta = FALSE) {
 
 #' @rdname cir_stat
 #' @export
-cir_stat_Poisson2 <- function(Theta, rho = 0.5, Psi_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_Poisson2', PACKAGE = 'sphunif', Theta, rho, Psi_in_Theta)
-}
-
-#' @rdname cir_stat
-#' @export
 cir_stat_CCF09 <- function(Theta, dirs, K_CCF09 = 25L, original = FALSE) {
     .Call('_sphunif_cir_stat_CCF09', PACKAGE = 'sphunif', Theta, dirs, K_CCF09, original)
 }
@@ -1263,17 +1257,6 @@ sph_stat_Poisson1 <- function(X, rho = 0.5, Psi_in_X = FALSE, p = 0L) {
 #' @keywords internal
 sph_stat_Poisson1_Psi <- function(Psi, rho, n, p) {
     .Call('_sphunif_sph_stat_Poisson1_Psi', PACKAGE = 'sphunif', Psi, rho, n, p)
-}
-
-#' @rdname sph_stat
-#' @export
-sph_stat_Poisson2 <- function(X, rho = 0.5, Psi_in_X = FALSE, p = 0L) {
-    .Call('_sphunif_sph_stat_Poisson2', PACKAGE = 'sphunif', X, rho, Psi_in_X, p)
-}
-
-#' @keywords internal
-sph_stat_Poisson2_Psi <- function(Psi, rho, n, p) {
-    .Call('_sphunif_sph_stat_Poisson2_Psi', PACKAGE = 'sphunif', Psi, rho, n, p)
 }
 
 #' @rdname sph_stat

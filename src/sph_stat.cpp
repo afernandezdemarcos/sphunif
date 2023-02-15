@@ -36,8 +36,6 @@ arma::vec sph_stat_LSE_Psi(arma::mat Psi, double kappa, arma::uword n,
                            arma::uword p);
 arma::vec sph_stat_Poisson1_Psi(arma::mat Psi, double rho, arma::uword n, 
                            arma::uword p);
-arma::vec sph_stat_Poisson2_Psi(arma::mat Psi, double rho, arma::uword n, 
-                                arma::uword p);
 arma::vec sph_stat_CJ12_Psi(arma::mat Psi, arma::uword n, arma::uword p);
 
 // Constants
@@ -1058,17 +1056,17 @@ arma::vec sph_stat_LSE_Psi(arma::mat Psi, double kappa, arma::uword n,
   
   if (p == 2){
     
-    b_0p = std::exp(-kappa) * R::bessel_i(kappa, 0, 1);
+    b_0p = R::bessel_i(kappa, 0, 1);
     
   } else {
     
-    b_0p = std::pow(2.0 / kappa, alpha) * std::tgamma(alpha) * std::exp(-kappa) * 
+    b_0p = std::pow(2.0 / kappa, alpha) * std::tgamma(alpha) * 
       alpha * R::bessel_i(kappa, alpha, 1);
     
   }
   
   double E_H0 = b_0p * (n - 1);
-  T1n = 2.0 * T1n - E_H0;
+  T1n = std::exp(-kappa) * (2.0 * T1n - E_H0);
 
   return T1n;
   
@@ -1143,81 +1141,6 @@ arma::vec sph_stat_Poisson1_Psi(arma::mat Psi, double rho, arma::uword n,
   T2n = 2.0 * T2n - (n-1);
   
   return T2n;
-  
-}
-
-//' @rdname sph_stat
-//' @export
-// [[Rcpp::export]]
-arma::vec sph_stat_Poisson2(arma::cube X, double rho = 0.5, bool Psi_in_X = false,
-                            arma::uword p = 0) {
-  
-  // Sample size
-  arma::uword n = Psi_in_X ? n_from_dist_vector(X.n_rows) : X.n_rows;
-  
-  // Dimension
-  p = Psi_in_X ? p : X.n_cols;
-  if (Psi_in_X && (p == 0)) {
-    
-    stop("p >= 2 must be specified if Psi_in_X = TRUE.");
-    
-  }
-  
-  // rho
-  if (std::abs(rho) >= 1) {
-    
-    stop("|rho| must be a value lower than 1.");
-    
-  }
-  
-  // Number of samples
-  arma::uword M = Psi_in_X ? X.n_cols : X.n_slices;
-  
-  // Compute statistic using precomputed Psi matrix?
-  if (Psi_in_X) {
-    
-    // Compute statistic
-    return sph_stat_Poisson2_Psi(X.slice(0), rho, n, p);
-    
-  } else {
-    
-    // Statistic for each slice
-    arma::vec T3n = arma::zeros(M);
-    arma::uvec ind_tri = upper_tri_ind(n);
-    for (arma::uword k = 0; k < M; k++) {
-      
-      // Compute Psi matrix
-      arma::mat Psi = Psi_mat(X(arma::span::all, arma::span::all,
-                                arma::span(k)), ind_tri, true, false, false);
-      
-      // Compute statistic
-      T3n(k) = arma::as_scalar(sph_stat_Poisson2_Psi(Psi, rho, n, p));
-      
-    }
-    
-    return T3n;
-    
-  }
-  
-}
-
-//' @keywords internal
-// [[Rcpp::export]]
-arma::vec sph_stat_Poisson2_Psi(arma::mat Psi, double rho, arma::uword n, 
-                                arma::uword p) {
-  
-  // Statistic
-  double rho_sq = std::pow(rho, 2.0);
-  arma::mat K_ij = (1 - rho*arma::cos(Psi)) / arma::pow(1 - 2*rho*arma::cos(Psi) + rho_sq, 0.5 * p);
-  double K_ii = (1 - rho) / arma::as_scalar(std::pow(1 - 2*rho + rho_sq, 0.5 * p));
-  
-  // Statistic
-  arma::vec T3n = 2 * arma::sum(K_ij, 0).t() / n + K_ii;
-  
-  // Subtract n*E_H0, where E_H0 = 1
-  T3n -= n;
-  
-  return T3n;
   
 }
 

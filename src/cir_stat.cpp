@@ -33,8 +33,6 @@ arma::vec sph_stat_LSE(arma::cube X, double kappa, bool Psi_in_X,
                        arma::uword p);
 arma::vec sph_stat_Poisson1(arma::cube X, double rho, bool Psi_in_X, 
                        arma::uword p);
-arma::vec sph_stat_Poisson2(arma::cube X, double rho, bool Psi_in_X, 
-                            arma::uword p);
 arma::vec sph_stat_CCF09(arma::cube X, arma::mat dirs, arma::uword K_CCF09,
                          bool original = false);
 
@@ -1212,26 +1210,6 @@ arma::vec cir_stat_Poisson1(arma::mat Theta, double rho = 0.5,
   } else {
     
     return sph_stat_Poisson1(Theta_to_X(Theta), rho, Psi_in_Theta, 2);
-    
-  }
-  
-}
-
-//' @rdname cir_stat
-//' @export
-// [[Rcpp::export]]
-arma::vec cir_stat_Poisson2(arma::mat Theta, double rho = 0.5,
-                            bool Psi_in_Theta = false) {
-  
-  if (Psi_in_Theta) {
-    
-    arma::cube Theta_cube(Theta.n_rows, Theta.n_cols, 1);
-    Theta_cube.slice(0) = Theta;
-    return sph_stat_Poisson2(Theta_cube, rho, true, 2);
-    
-  } else {
-    
-    return sph_stat_Poisson2(Theta_to_X(Theta), rho, Psi_in_Theta, 2);
     
   }
   

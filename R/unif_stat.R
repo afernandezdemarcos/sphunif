@@ -525,13 +525,6 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
                      Psi_in_Theta = Psi_in_Theta)
       
     }
-    if (run_test$Poisson_cosine) {
-      
-      stats$Poisson_cosine <-
-        cir_stat_Poisson2(Theta = data, rho = Poisson_rho, 
-                          Psi_in_Theta = Psi_in_Theta)
-      
-    }
     if (run_test$Rothman) {
 
       stats$Rothman <- cir_stat_Rothman(Theta = data, t = Rothman_t,
@@ -743,12 +736,6 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
       
       stats$Poisson_squared <- sph_stat_Poisson1(X = data, rho = Poisson_rho, 
                                 Psi_in_X = Psi_in_X, p = p)
-      
-    }
-    if (run_test$Poisson_cosine) {
-      
-      stats$Poisson_cosine <- sph_stat_Poisson2(X = data, rho = Poisson_rho, 
-                                                 Psi_in_X = Psi_in_X, p = p)
       
     }
     if (run_test$PRt) {

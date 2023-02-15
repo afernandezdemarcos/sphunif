@@ -227,17 +227,13 @@
 #' cir_stat_PAD(Theta)
 #' cir_stat_PAD(Psi, Psi_in_Theta = TRUE)
 #' 
-#' # Smooth maximum (LogSumExp)
+#' # Smooth maximum (LogSumExp kernel)
 #' cir_stat_LSE(Theta)
 #' cir_stat_LSE(Psi, Psi_in_Theta = TRUE)
 #' 
-#' # Poisson Kernel (rho_squared)
+#' # Poisson Kernel
 #' cir_stat_Poisson1(Theta)
 #' cir_stat_Poisson1(Psi, Psi_in_Theta = TRUE)
-#'
-#' # Poisson Kernel (rho_cosine)
-#' cir_stat_Poisson2(Theta)
-#' cir_stat_Poisson2(Psi, Psi_in_Theta = TRUE)
 #'
 #' ## Other tests
 #'
