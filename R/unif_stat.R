@@ -228,7 +228,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "Gine_Fn", "Gine_Gn",
                          "Hermans_Rasson", "LSE", "PAD", "PCvM", 
-                         "Poisson_squared", "Poisson_cosine", "PRt", "Pycke",
+                         "Poisson_squared", "PRt", "Pycke",
                          "Pycke_q", "Rothman", "Riesz")
 
     # Evaluate which statistics to apply
@@ -571,7 +571,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "CJ12", "Gine_Fn", "Gine_Gn", 
                          "LSE", "PAD", "PCvM", "Poisson_squared", 
-                         "Poisson_cosine", "PRt", "Pycke", "Riesz")
+                         "PRt", "Pycke", "Riesz")
 
     # Evaluate which statistics to apply
     run_test <- as.list(avail_sph_tests %in% stats_type)
