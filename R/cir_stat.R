@@ -232,8 +232,8 @@
 #' cir_stat_LSE(Psi, Psi_in_Theta = TRUE)
 #' 
 #' # Poisson Kernel
-#' cir_stat_Poisson1(Theta)
-#' cir_stat_Poisson1(Psi, Psi_in_Theta = TRUE)
+#' cir_stat_Poisson(Theta)
+#' cir_stat_Poisson(Psi, Psi_in_Theta = TRUE)
 #'
 #' ## Other tests
 #'

@@ -113,8 +113,8 @@
 #' sph_stat_LSE(Psi, Psi_in_X = TRUE, p = p)
 #' 
 #' # Poisson Kernel
-#' sph_stat_Poisson1(X)
-#' sph_stat_Poisson1(Psi, Psi_in_X = TRUE, p = p)
+#' sph_stat_Poisson(X)
+#' sph_stat_Poisson(Psi, Psi_in_X = TRUE, p = p)
 #'
 #' ## Other tests
 #'

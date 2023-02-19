@@ -13,6 +13,10 @@
 #' is the dimension of the space of eigenfunctions of the Laplacian on
 #' \eqn{S^{p-1}}, \eqn{p\ge 2}, associated to the \eqn{k}-th
 #' eigenvalue, \eqn{k\ge 1}.
+#' 
+#' The asymptotic distribution of U-statistics are infinite
+#' weighted sums of (central) chi squared random variables with null expectation:
+#' \deqn{\sum_{k = 1}^\infty v_k^2 (\chi^2_{d_{p, k}} - d_{p,k}).}
 #'
 #' @inheritParams r_unif
 #' @param k sequence of integer indexes.
@@ -26,6 +30,8 @@
 #' For \eqn{p \ge 2}, \code{"Ajne"}, \code{"Gine_Gn"}, \code{"Gine_Fn"},
 #' \code{"Bakshaev"}, \code{"Riesz"}, \code{"PCvM"}, \code{"PAD"}, or
 #' \code{"PRt"}.
+#' @param centered if \code{TRUE} the asymptotic distribution of a U-statistic
+#' is computed.
 #' @param log compute the logarithm of \eqn{d_{p,k}}? Defaults to
 #' \code{FALSE}.
 #' @param verbose output information about the truncation? Defaults to
@@ -516,7 +522,7 @@ weights_dfs_Sobolev <- function(p, K_max = 1e3, thre = 1e-3, type,
       log_weights <- log_vk2
       log_dfs <- log_dk
       
-    } else if (type == "Poisson_squared") {
+    } else if (type == "Poisson") {
       
       # Sequence of indexes
       k <- 1:K_max

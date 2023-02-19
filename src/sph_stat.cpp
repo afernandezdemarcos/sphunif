@@ -34,7 +34,7 @@ arma::vec sph_stat_PAD_Psi(arma::mat Psi, arma::uword n, arma::uword p,
                            arma::vec th_grid, arma::vec int_grid);
 arma::vec sph_stat_LSE_Psi(arma::mat Psi, double kappa, arma::uword n, 
                            arma::uword p);
-arma::vec sph_stat_Poisson1_Psi(arma::mat Psi, double rho, arma::uword n, 
+arma::vec sph_stat_Poisson_Psi(arma::mat Psi, double rho, arma::uword n, 
                            arma::uword p);
 arma::vec sph_stat_CJ12_Psi(arma::mat Psi, arma::uword n, arma::uword p);
 
@@ -1075,7 +1075,7 @@ arma::vec sph_stat_LSE_Psi(arma::mat Psi, double kappa, arma::uword n,
 //' @rdname sph_stat
 //' @export
 // [[Rcpp::export]]
-arma::vec sph_stat_Poisson1(arma::cube X, double rho = 0.5, bool Psi_in_X = false,
+arma::vec sph_stat_Poisson(arma::cube X, double rho = 0.5, bool Psi_in_X = false,
                        arma::uword p = 0) {
   
   // Sample size
@@ -1103,7 +1103,7 @@ arma::vec sph_stat_Poisson1(arma::cube X, double rho = 0.5, bool Psi_in_X = fals
   if (Psi_in_X) {
     
     // Compute statistic
-    return sph_stat_Poisson1_Psi(X.slice(0), rho, n, p);
+    return sph_stat_Poisson_Psi(X.slice(0), rho, n, p);
     
   } else {
     
@@ -1117,7 +1117,7 @@ arma::vec sph_stat_Poisson1(arma::cube X, double rho = 0.5, bool Psi_in_X = fals
                                 arma::span(k)), ind_tri, true, false, false);
       
       // Compute statistic
-      T2n(k) = arma::as_scalar(sph_stat_Poisson1_Psi(Psi, rho, n, p));
+      T2n(k) = arma::as_scalar(sph_stat_Poisson_Psi(Psi, rho, n, p));
       
     }
     
@@ -1129,7 +1129,7 @@ arma::vec sph_stat_Poisson1(arma::cube X, double rho = 0.5, bool Psi_in_X = fals
 
 //' @keywords internal
 // [[Rcpp::export]]
-arma::vec sph_stat_Poisson1_Psi(arma::mat Psi, double rho, arma::uword n, 
+arma::vec sph_stat_Poisson_Psi(arma::mat Psi, double rho, arma::uword n, 
                            arma::uword p) {
   
   // Statistic

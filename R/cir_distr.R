@@ -328,18 +328,18 @@ d_cir_stat_LSE <- function(x, kappa = 1.0, K_max = 1e3, thre = 0, ...) {
 
 #' @rdname cir_stat_distr
 #' @export
-p_cir_stat_Poisson_squared <- function(x, rho = 0.5, K_max = 1e3, thre = 0, ...) {
+p_cir_stat_Poisson <- function(x, rho = 0.5, K_max = 1e3, thre = 0, ...) {
   
-  p_sph_stat_Poisson_squared(x = x, p = 2, rho = rho, K_max = K_max, thre = thre, ...)
+  p_sph_stat_Poisson(x = x, p = 2, rho = rho, K_max = K_max, thre = thre, ...)
   
 }
 
 
 #' @rdname cir_stat_distr
 #' @export
-d_cir_stat_Poisson_squared <- function(x, rho = 0.5, K_max = 1e3, thre = 0, ...) {
+d_cir_stat_Poisson <- function(x, rho = 0.5, K_max = 1e3, thre = 0, ...) {
   
-  d_sph_stat_Poisson_squared(x = x, p = 2, rho = rho, K_max = K_max, thre = thre, ...)
+  d_sph_stat_Poisson(x = x, p = 2, rho = rho, K_max = K_max, thre = thre, ...)
   
 }
 

@@ -228,7 +228,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "Gine_Fn", "Gine_Gn",
                          "Hermans_Rasson", "LSE", "PAD", "PCvM", 
-                         "Poisson_squared", "PRt", "Pycke",
+                         "Poisson", "PRt", "Pycke",
                          "Pycke_q", "Rothman", "Riesz")
 
     # Evaluate which statistics to apply
@@ -518,10 +518,10 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
       }
 
     }
-    if (run_test$Poisson_squared) {
+    if (run_test$Poisson) {
       
-      stats$Poisson_squared <-
-        cir_stat_Poisson1(Theta = data, rho = Poisson_rho, 
+      stats$Poisson <-
+        cir_stat_Poisson(Theta = data, rho = Poisson_rho, 
                      Psi_in_Theta = Psi_in_Theta)
       
     }
@@ -570,7 +570,7 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
 
     # Statistics using the shortest angles matrix Psi
     stats_using_Psi <- c("Ajne", "Bakshaev", "CJ12", "Gine_Fn", "Gine_Gn", 
-                         "LSE", "PAD", "PCvM", "Poisson_squared", 
+                         "LSE", "PAD", "PCvM", "Poisson", 
                          "PRt", "Pycke", "Riesz")
 
     # Evaluate which statistics to apply
@@ -732,9 +732,9 @@ unif_stat <- function(data, type = "all", data_sorted = FALSE,
       }
 
     }
-    if (run_test$Poisson_squared) {
+    if (run_test$Poisson) {
       
-      stats$Poisson_squared <- sph_stat_Poisson1(X = data, rho = Poisson_rho, 
+      stats$Poisson <- sph_stat_Poisson(X = data, rho = Poisson_rho, 
                                 Psi_in_X = Psi_in_X, p = p)
       
     }

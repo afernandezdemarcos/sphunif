@@ -583,8 +583,8 @@ cir_stat_LSE <- function(Theta, kappa = 1.0, Psi_in_Theta = FALSE) {
 
 #' @rdname cir_stat
 #' @export
-cir_stat_Poisson1 <- function(Theta, rho = 0.5, Psi_in_Theta = FALSE) {
-    .Call('_sphunif_cir_stat_Poisson1', PACKAGE = 'sphunif', Theta, rho, Psi_in_Theta)
+cir_stat_Poisson <- function(Theta, rho = 0.5, Psi_in_Theta = FALSE) {
+    .Call('_sphunif_cir_stat_Poisson', PACKAGE = 'sphunif', Theta, rho, Psi_in_Theta)
 }
 
 #' @rdname cir_stat
@@ -1250,13 +1250,13 @@ sph_stat_LSE_Psi <- function(Psi, kappa, n, p) {
 
 #' @rdname sph_stat
 #' @export
-sph_stat_Poisson1 <- function(X, rho = 0.5, Psi_in_X = FALSE, p = 0L) {
-    .Call('_sphunif_sph_stat_Poisson1', PACKAGE = 'sphunif', X, rho, Psi_in_X, p)
+sph_stat_Poisson <- function(X, rho = 0.5, Psi_in_X = FALSE, p = 0L) {
+    .Call('_sphunif_sph_stat_Poisson', PACKAGE = 'sphunif', X, rho, Psi_in_X, p)
 }
 
 #' @keywords internal
-sph_stat_Poisson1_Psi <- function(Psi, rho, n, p) {
-    .Call('_sphunif_sph_stat_Poisson1_Psi', PACKAGE = 'sphunif', Psi, rho, n, p)
+sph_stat_Poisson_Psi <- function(Psi, rho, n, p) {
+    .Call('_sphunif_sph_stat_Poisson_Psi', PACKAGE = 'sphunif', Psi, rho, n, p)
 }
 
 #' @rdname sph_stat
