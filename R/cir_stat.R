@@ -50,7 +50,7 @@
 #' @param kappa \eqn{\kappa} parameter for the smooth maximum (LogSumExp) test, 
 #' a positive real. Defaults to \code{1}.
 #' @param rho \eqn{\rho} parameter for the Poisson kernel tests, a real in
-#' \eqn{(-1, 1)}. Defaults to \code{0.5}.
+#' \eqn{(0, 1)}. Defaults to \code{0.5}.
 #' @param abs_val return the absolute value of the Darling's log gaps
 #' statistic? If \code{TRUE} (default), rejection happens for \emph{large}
 #' values of the statistic, which is consistent with the rest of tests.
