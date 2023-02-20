@@ -20,8 +20,6 @@ f_locdev_Pn(p, type, K = 1000, N = 320, K_max = 10000, thre = 0.001,
   Rothman_t = 1/3, verbose = FALSE)
 }
 \arguments{
-\item{theta}{vectors with values in \eqn{[0, \pi]}.}
-
 \item{q}{integer giving the dimension of the sphere \eqn{S^q}.}
 
 \item{type}{type of projected-ecdf test statistic. Must be either
@@ -42,9 +40,6 @@ computing the kernel function. Defaults to \code{320}.}
 
 \item{tol}{tolerance passed to \code{\link{integrate}}'s \code{rel.tol} and
 \code{abs.tol} if \code{Gauss = FALSE}. Defaults to \code{1e-6}.}
-
-\item{k}{vectors with the orders of the Gegenbauer polynomials. Must
-be integers larger or equal than \code{0}.}
 
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
 contains \eqn{S^{p-1}}.}

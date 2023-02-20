@@ -26,10 +26,10 @@
 \alias{d_sph_stat_PRt}
 \alias{p_sph_stat_LSE}
 \alias{d_sph_stat_LSE}
-\alias{p_sph_stat_Poisson_squared}
-\alias{d_sph_stat_Poisson_squared}
-\alias{p_sph_stat_Poisson_cosine}
-\alias{d_sph_stat_Poisson_cosine}
+\alias{q_sph_stat_LSE}
+\alias{p_sph_stat_Poisson}
+\alias{d_sph_stat_Poisson}
+\alias{q_sph_stat_Poisson}
 \alias{p_sph_stat_Riesz}
 \alias{d_sph_stat_Riesz}
 \title{Asymptotic distributions for spherical uniformity statistics}
@@ -82,13 +82,13 @@ p_sph_stat_LSE(x, p, kappa = 1, K_max = 1000, thre = 0, ...)
 
 d_sph_stat_LSE(x, p, kappa = 1, K_max = 1000, thre = 0, ...)
 
-p_sph_stat_Poisson_squared(x, p, rho = 0.5, K_max = 1000, thre = 0, ...)
+q_sph_stat_LSE(u, p, kappa = 1, K_max = 1000, thre = 0, ...)
 
-d_sph_stat_Poisson_squared(x, p, rho = 0.5, K_max = 1000, thre = 0, ...)
+p_sph_stat_Poisson(x, p, rho = 0.5, K_max = 1000, thre = 0, ...)
 
-p_sph_stat_Poisson_cosine(x, p, rho = 0.5, K_max = 1000, thre = 0, ...)
+d_sph_stat_Poisson(x, p, rho = 0.5, K_max = 1000, thre = 0, ...)
 
-d_sph_stat_Poisson_cosine(x, p, rho = 0.5, K_max = 1000, thre = 0, ...)
+q_sph_stat_Poisson(u, p, rho = 0.5, K_max = 1000, thre = 0, ...)
 
 p_sph_stat_Riesz(x, p, s = 1, K_max = 1000, thre = 0, ...)
 
@@ -123,8 +123,10 @@ the first terms of the truncated series of a Sobolev test. Defaults to
 \item{kappa}{\eqn{\kappa} parameter for the smooth maximum (LogSumExp) test, 
 a positive real. Defaults to \code{1}.}
 
+\item{u}{vector of probabilities.}
+
 \item{rho}{\eqn{\rho} parameter for the Poisson kernel tests, a real in
-\eqn{(-1, 1)}. Defaults to \code{0.5}.}
+\eqn{(0, 1)}. Defaults to \code{0.5}.}
 
 \item{s}{\eqn{s} parameter for the \eqn{s}-Riesz test, a real in
 \eqn{(0, 2)}. Defaults to \code{1}.}

@@ -7,8 +7,6 @@
 A_theta_x(theta, x, p, N = 160L, as_matrix = TRUE)
 }
 \arguments{
-\item{theta}{vectors with values in \eqn{[0, \pi]}.}
-
 \item{x}{vector with values in \eqn{[-1, 1]}.}
 
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that

@@ -627,16 +627,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// cir_stat_Poisson1
-arma::vec cir_stat_Poisson1(arma::mat Theta, double rho, bool Psi_in_Theta);
-RcppExport SEXP _sphunif_cir_stat_Poisson1(SEXP ThetaSEXP, SEXP rhoSEXP, SEXP Psi_in_ThetaSEXP) {
+// cir_stat_Poisson
+arma::vec cir_stat_Poisson(arma::mat Theta, double rho, bool Psi_in_Theta);
+RcppExport SEXP _sphunif_cir_stat_Poisson(SEXP ThetaSEXP, SEXP rhoSEXP, SEXP Psi_in_ThetaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type Theta(ThetaSEXP);
     Rcpp::traits::input_parameter< double >::type rho(rhoSEXP);
     Rcpp::traits::input_parameter< bool >::type Psi_in_Theta(Psi_in_ThetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(cir_stat_Poisson1(Theta, rho, Psi_in_Theta));
+    rcpp_result_gen = Rcpp::wrap(cir_stat_Poisson(Theta, rho, Psi_in_Theta));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1617,9 +1617,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// sph_stat_Poisson1
-arma::vec sph_stat_Poisson1(arma::cube X, double rho, bool Psi_in_X, arma::uword p);
-RcppExport SEXP _sphunif_sph_stat_Poisson1(SEXP XSEXP, SEXP rhoSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP) {
+// sph_stat_Poisson
+arma::vec sph_stat_Poisson(arma::cube X, double rho, bool Psi_in_X, arma::uword p);
+RcppExport SEXP _sphunif_sph_stat_Poisson(SEXP XSEXP, SEXP rhoSEXP, SEXP Psi_in_XSEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1627,13 +1627,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type rho(rhoSEXP);
     Rcpp::traits::input_parameter< bool >::type Psi_in_X(Psi_in_XSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_Poisson1(X, rho, Psi_in_X, p));
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Poisson(X, rho, Psi_in_X, p));
     return rcpp_result_gen;
 END_RCPP
 }
-// sph_stat_Poisson1_Psi
-arma::vec sph_stat_Poisson1_Psi(arma::mat Psi, double rho, arma::uword n, arma::uword p);
-RcppExport SEXP _sphunif_sph_stat_Poisson1_Psi(SEXP PsiSEXP, SEXP rhoSEXP, SEXP nSEXP, SEXP pSEXP) {
+// sph_stat_Poisson_Psi
+arma::vec sph_stat_Poisson_Psi(arma::mat Psi, double rho, arma::uword n, arma::uword p);
+RcppExport SEXP _sphunif_sph_stat_Poisson_Psi(SEXP PsiSEXP, SEXP rhoSEXP, SEXP nSEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -1641,7 +1641,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type rho(rhoSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type n(nSEXP);
     Rcpp::traits::input_parameter< arma::uword >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(sph_stat_Poisson1_Psi(Psi, rho, n, p));
+    rcpp_result_gen = Rcpp::wrap(sph_stat_Poisson_Psi(Psi, rho, n, p));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -1747,7 +1747,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_cir_stat_PRt", (DL_FUNC) &_sphunif_cir_stat_PRt, 3},
     {"_sphunif_cir_stat_PAD", (DL_FUNC) &_sphunif_cir_stat_PAD, 4},
     {"_sphunif_cir_stat_LSE", (DL_FUNC) &_sphunif_cir_stat_LSE, 3},
-    {"_sphunif_cir_stat_Poisson1", (DL_FUNC) &_sphunif_cir_stat_Poisson1, 3},
+    {"_sphunif_cir_stat_Poisson", (DL_FUNC) &_sphunif_cir_stat_Poisson, 3},
     {"_sphunif_cir_stat_CCF09", (DL_FUNC) &_sphunif_cir_stat_CCF09, 4},
     {"_sphunif_p_Kolmogorov", (DL_FUNC) &_sphunif_p_Kolmogorov, 3},
     {"_sphunif_d_Kolmogorov", (DL_FUNC) &_sphunif_d_Kolmogorov, 3},
@@ -1825,8 +1825,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_sphunif_sph_stat_PAD_Psi", (DL_FUNC) &_sphunif_sph_stat_PAD_Psi, 5},
     {"_sphunif_sph_stat_LSE", (DL_FUNC) &_sphunif_sph_stat_LSE, 4},
     {"_sphunif_sph_stat_LSE_Psi", (DL_FUNC) &_sphunif_sph_stat_LSE_Psi, 4},
-    {"_sphunif_sph_stat_Poisson1", (DL_FUNC) &_sphunif_sph_stat_Poisson1, 4},
-    {"_sphunif_sph_stat_Poisson1_Psi", (DL_FUNC) &_sphunif_sph_stat_Poisson1_Psi, 4},
+    {"_sphunif_sph_stat_Poisson", (DL_FUNC) &_sphunif_sph_stat_Poisson, 4},
+    {"_sphunif_sph_stat_Poisson_Psi", (DL_FUNC) &_sphunif_sph_stat_Poisson_Psi, 4},
     {"_sphunif_sph_stat_CCF09", (DL_FUNC) &_sphunif_sph_stat_CCF09, 4},
     {"_sphunif_sph_stat_Rayleigh_HD", (DL_FUNC) &_sphunif_sph_stat_Rayleigh_HD, 1},
     {"_sphunif_sph_stat_CJ12", (DL_FUNC) &_sphunif_sph_stat_CJ12, 4},

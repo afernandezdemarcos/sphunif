@@ -19,17 +19,17 @@ weights_dfs_Sobolev(p, K_max = 1000, thre = 0.001, type, Rothman_t = 1/3,
 d_Sobolev(x, p, type, method = c("I", "SW", "HBE")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, Pycke_q = 0.5, LSE_kappa = 1,
   Poisson_rho = 0.5, Riesz_s = 1, ncps = 0, verbose = TRUE, N = 320,
-  x_tail = NULL, ...)
+  x_tail = NULL, centered = FALSE, ...)
 
 p_Sobolev(x, p, type, method = c("I", "SW", "HBE", "MC")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, LSE_kappa = 1, Poisson_rho = 0.5,
   Pycke_q = 0.5, Riesz_s = 1, ncps = 0, verbose = TRUE, N = 320,
-  x_tail = NULL, ...)
+  x_tail = NULL, centered = FALSE, ...)
 
 q_Sobolev(u, p, type, method = c("I", "SW", "HBE", "MC")[1], K_max = 1000,
   thre = 0.001, Rothman_t = 1/3, LSE_kappa = 1, Poisson_rho = 0.5,
   Pycke_q = 0.5, Riesz_s = 1, ncps = 0, verbose = TRUE, N = 320,
-  x_tail = NULL, ...)
+  x_tail = NULL, centered = FALSE, ...)
 }
 \arguments{
 \item{p}{integer giving the dimension of the ambient space \eqn{R^p} that
@@ -66,7 +66,7 @@ For \eqn{p \ge 2}, \code{"Ajne"}, \code{"Gine_Gn"}, \code{"Gine_Fn"},
 a positive real. Defaults to \code{1}.}
 
 \item{Poisson_rho}{\eqn{\rho} parameter for the Poisson kernel tests, a real in
-\eqn{(-1, 1)}. Defaults to \code{0.5}.}
+\eqn{(0, 1)}. Defaults to \code{0.5}.}
 
 \item{verbose}{output information about the truncation? Defaults to
 \code{TRUE}.}
@@ -99,6 +99,9 @@ Defaults to \code{"I"}.}
 \item{ncps}{non-centrality parameters. Either \code{0} (default) or a
 vector with the same length as \code{weights}.}
 
+\item{centered}{if \code{TRUE} the asymptotic distribution of a U-statistic
+is computed.}
+
 \item{...}{further parameters passed to \code{*_\link{wschisq}}.}
 
 \item{u}{vector of probabilities.}
@@ -128,6 +131,10 @@ where
 is the dimension of the space of eigenfunctions of the Laplacian on
 \eqn{S^{p-1}}, \eqn{p\ge 2}, associated to the \eqn{k}-th
 eigenvalue, \eqn{k\ge 1}.
+
+The asymptotic distribution of U-statistics are infinite
+weighted sums of (central) chi squared random variables with null expectation:
+\deqn{\sum_{k = 1}^\infty v_k^2 (\chi^2_{d_{p, k}} - d_{p,k}).}
 }
 \details{
 The truncation of \eqn{\sum_{k = 1}^\infty v_k^2 \chi^2_{d_{p, k}}} is

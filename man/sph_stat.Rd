@@ -13,8 +13,7 @@
 \alias{sph_stat_PRt}
 \alias{sph_stat_PAD}
 \alias{sph_stat_LSE}
-\alias{sph_stat_Poisson1}
-\alias{sph_stat_Poisson2}
+\alias{sph_stat_Poisson}
 \alias{sph_stat_CCF09}
 \alias{sph_stat_Rayleigh_HD}
 \alias{sph_stat_CJ12}
@@ -45,9 +44,7 @@ sph_stat_PAD(X, Psi_in_X = FALSE, p = 0L, N = 160L, L = 1000L)
 
 sph_stat_LSE(X, kappa = 1, Psi_in_X = FALSE, p = 0L)
 
-sph_stat_Poisson1(X, rho = 0.5, Psi_in_X = FALSE, p = 0L)
-
-sph_stat_Poisson2(X, rho = 0.5, Psi_in_X = FALSE, p = 0L)
+sph_stat_Poisson(X, rho = 0.5, Psi_in_X = FALSE, p = 0L)
 
 sph_stat_CCF09(X, dirs, K_CCF09 = 25L, original = FALSE)
 
@@ -85,7 +82,7 @@ that require evaluating an integral. Defaults to \code{1e3}.}
 a positive real. Defaults to \code{1}.}
 
 \item{rho}{\eqn{\rho} parameter for the Poisson kernel tests, a real in
-\eqn{(-1, 1)}. Defaults to \code{0.5}.}
+\eqn{(0, 1)}. Defaults to \code{0.5}.}
 
 \item{dirs}{a matrix of size \code{c(n_proj, p)} containing \code{n_proj}
 random directions (in Cartesian coordinates) on \eqn{S^{p-1}} to perform
@@ -183,7 +180,7 @@ sph_stat_Bakshaev(Psi, Psi_in_X = TRUE, p = p)
 sph_stat_Riesz(X, s = 1)
 sph_stat_Riesz(Psi, Psi_in_X = TRUE, p = p, s = 1)
 
-# Projected CramÃ©r-von Mises
+# Projected Cramér-von Mises
 sph_stat_PCvM(X)
 sph_stat_PCvM(Psi, Psi_in_X = TRUE, p = p)
 
@@ -195,17 +192,13 @@ sph_stat_PRt(Psi, Psi_in_X = TRUE, p = p)
 sph_stat_PAD(X)
 sph_stat_PAD(Psi, Psi_in_X = TRUE, p = p)
 
-# Smooth maximum (LogSumExp)
+# Smooth maximum (LogSumExp kernel)
 sph_stat_LSE(X)
 sph_stat_LSE(Psi, Psi_in_X = TRUE, p = p)
 
-# Poisson Kernel (rho_squared)
-sph_stat_Poisson1(X)
-sph_stat_Poisson1(Psi, Psi_in_X = TRUE, p = p)
-
-# Poisson Kernel (rho_cosine)
-sph_stat_Poisson2(X)
-sph_stat_Poisson2(Psi, Psi_in_X = TRUE, p = p)
+# Poisson Kernel
+sph_stat_Poisson(X)
+sph_stat_Poisson(Psi, Psi_in_X = TRUE, p = p)
 
 ## Other tests
 

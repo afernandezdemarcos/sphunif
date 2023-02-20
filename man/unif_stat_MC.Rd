@@ -92,7 +92,7 @@ of the coverage-based tests. Must be positive. Defaults to \code{2 * pi}.}
 a positive real. Defaults to \code{1}.}
 
 \item{Poisson_rho}{\eqn{\rho} parameter for the Poisson kernel tests, a real in
-\eqn{(-1, 1)}. Defaults to \code{0.5}.}
+\eqn{(0, 1)}. Defaults to \code{0.5}.}
 
 \item{CCF09_dirs}{a matrix of size \code{c(n_proj, p)} containing
 \code{n_proj} random directions (in Cartesian coordinates) on \eqn{S^{p-1}}

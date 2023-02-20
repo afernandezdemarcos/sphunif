@@ -31,8 +31,7 @@
 \alias{cir_stat_PRt}
 \alias{cir_stat_PAD}
 \alias{cir_stat_LSE}
-\alias{cir_stat_Poisson1}
-\alias{cir_stat_Poisson2}
+\alias{cir_stat_Poisson}
 \alias{cir_stat_CCF09}
 \alias{cir_stat}
 \title{Statistics for testing circular uniformity}
@@ -99,9 +98,7 @@ cir_stat_PAD(Theta, Psi_in_Theta = FALSE, AD = FALSE, sorted = FALSE)
 
 cir_stat_LSE(Theta, kappa = 1, Psi_in_Theta = FALSE)
 
-cir_stat_Poisson1(Theta, rho = 0.5, Psi_in_Theta = FALSE)
-
-cir_stat_Poisson2(Theta, rho = 0.5, Psi_in_Theta = FALSE)
+cir_stat_Poisson(Theta, rho = 0.5, Psi_in_Theta = FALSE)
 
 cir_stat_CCF09(Theta, dirs, K_CCF09 = 25L, original = FALSE)
 }
@@ -184,7 +181,7 @@ statistic? Defaults to \code{FALSE}.}
 a positive real. Defaults to \code{1}.}
 
 \item{rho}{\eqn{\rho} parameter for the Poisson kernel tests, a real in
-\eqn{(-1, 1)}. Defaults to \code{0.5}.}
+\eqn{(0, 1)}. Defaults to \code{0.5}.}
 
 \item{dirs}{a matrix of size \code{c(n_proj, 2)} containing \code{n_proj}
 random directions (in Cartesian coordinates) on \eqn{S^1} to perform the
@@ -347,7 +344,7 @@ cir_stat_Bakshaev(Psi, Psi_in_Theta = TRUE)
 cir_stat_Riesz(Theta, s = 1)
 cir_stat_Riesz(Psi, Psi_in_Theta = TRUE, s = 1)
 
-# Projected CramÃ©r-von Mises
+# Projected Cramér-von Mises
 cir_stat_PCvM(Theta)
 cir_stat_PCvM(Psi, Psi_in_Theta = TRUE)
 
@@ -360,17 +357,13 @@ cir_stat_PRt(Psi, Psi_in_Theta = TRUE)
 cir_stat_PAD(Theta)
 cir_stat_PAD(Psi, Psi_in_Theta = TRUE)
 
-# Smooth maximum (LogSumExp)
+# Smooth maximum (LogSumExp kernel)
 cir_stat_LSE(Theta)
 cir_stat_LSE(Psi, Psi_in_Theta = TRUE)
 
-# Poisson Kernel (rho_squared)
-cir_stat_Poisson1(Theta)
-cir_stat_Poisson1(Psi, Psi_in_Theta = TRUE)
-
-# Poisson Kernel (rho_cosine)
-cir_stat_Poisson2(Theta)
-cir_stat_Poisson2(Psi, Psi_in_Theta = TRUE)
+# Poisson Kernel
+cir_stat_Poisson(Theta)
+cir_stat_Poisson(Psi, Psi_in_Theta = TRUE)
 
 ## Other tests
 
