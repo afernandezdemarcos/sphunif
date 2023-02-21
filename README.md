@@ -8,8 +8,8 @@ status](https://github.com/egarpor/sphunif/workflows/R-CMD-check/badge.svg)](htt
 status](https://github.com/egarpor/sphunif/workflows/test-coverage/badge.svg)](https://github.com/egarpor/sphunif/actions)
 [![](https://codecov.io/gh/egarpor/sphunif/branch/master/graph/badge.svg)](https://codecov.io/gh/egarpor/sphunif)
 [![](https://www.r-pkg.org/badges/version/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
-[![](http://cranlogs.r-pkg.org/badges/last-month/sphunif?color=green)](https://cran.r-project.org/package=sphunif)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/sphunif)](https://cran.r-project.org/package=sphunif)
+[![](http://cranlogs.r-pkg.org/badges/last-month/sphunif)](https://cran.r-project.org/package=sphunif)
 
 <!-- <img src="" alt="sphunif hexlogo" align="right" width="200" style="padding: 0 15px; float: right;"/> -->
 
@@ -94,11 +94,11 @@ avail_cir_tests
 #>  [1] "Ajne"           "Bakshaev"       "Bingham"        "Cressie"       
 #>  [5] "CCF09"          "FG01"           "Gine_Fn"        "Gine_Gn"       
 #>  [9] "Gini"           "Gini_squared"   "Greenwood"      "Hermans_Rasson"
-#> [13] "Hodges_Ajne"    "Kuiper"         "Log_gaps"       "Max_uncover"   
-#> [17] "Num_uncover"    "PAD"            "PCvM"           "PRt"           
-#> [21] "Pycke"          "Pycke_q"        "Range"          "Rao"           
-#> [25] "Rayleigh"       "Riesz"          "Rothman"        "Vacancy"       
-#> [29] "Watson"         "Watson_1976"
+#> [13] "Hodges_Ajne"    "Kuiper"         "Log_gaps"       "LSE"           
+#> [17] "Max_uncover"    "Num_uncover"    "PAD"            "PCvM"          
+#> [21] "Poisson"        "PRt"            "Pycke"          "Pycke_q"       
+#> [25] "Range"          "Rao"            "Rayleigh"       "Riesz"         
+#> [29] "Rothman"        "Vacancy"        "Watson"         "Watson_1976"
 ```
 
 For example:
@@ -152,8 +152,9 @@ The available spherical uniformity tests:
 ``` r
 avail_sph_tests
 #>  [1] "Ajne"        "Bakshaev"    "Bingham"     "CJ12"        "CCF09"      
-#>  [6] "Gine_Fn"     "Gine_Gn"     "PAD"         "PCvM"        "PRt"        
-#> [11] "Pycke"       "Rayleigh"    "Rayleigh_HD" "Riesz"
+#>  [6] "Gine_Fn"     "Gine_Gn"     "LSE"         "PAD"         "PCvM"       
+#> [11] "PRt"         "Poisson"     "Pycke"       "Rayleigh"    "Rayleigh_HD"
+#> [16] "Riesz"
 ```
 
 The default `type = "all"` equals `type = avail_sph_tests`:
@@ -347,7 +348,7 @@ Balzano, S., Porzio, G. C., Salvatore, R., Vistocco, D., and Vichi, M.
 (Eds.), *Statistical Learning and Modeling in Data Analysis*, Studies in
 Classification, Data Analysis and Knowledge Organization, pp. 107–-116.
 Springer, Cham.
-[doi:10.1007/978-3-030-69944-4\_12](https://doi.org/10.1007/978-3-030-69944-4_12).
+[doi:10.1007/978-3-030-69944-4_12](https://doi.org/10.1007/978-3-030-69944-4_12).
 
 García-Portugués, E., Navarro-Esteban, P., and Cuesta-Albertos, J. A.
 (2020). On a projection-based class of uniformity tests on the
